@@ -218,10 +218,34 @@
             flex-direction: column;
             align-items: center;
             gap: 1.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
+        }
+
+        .about-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .about-content::-webkit-scrollbar-track {
+            background: rgba(157, 139, 122, 0.15);
+            border-radius: 10px;
+        }
+
+        .about-content::-webkit-scrollbar-thumb {
+            background: rgba(157, 139, 122, 0.4);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .about-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(157, 139, 122, 0.6);
         }
 
         .about-image {
-            width: 470px;
+            width: 100%;
+            max-width: 470px;
             height: 260px;
             display: flex;
             flex-direction: row;
@@ -229,6 +253,7 @@
             justify-content: center;
             align-items: center;
             border-radius: 20px;
+            flex-shrink: 0;
         }
 
         img {
@@ -245,7 +270,8 @@
             font-size: 0.9rem;
             line-height: 1.6;
             letter-spacing: 0.5px;
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .calendar-container {
@@ -752,8 +778,8 @@ Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, an
                 <div class="home-link" id="homeLink3">[HOME]</div>
                 <h2 class="section-title">Contact Me</h2>
                 <div class="contact-content">
-                    <div class="contact-item">
-                        <a href="mailto:natashagoodwinyoga@gmail.com" style="color: #6b5d4f; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#9d8b7a'" onmouseout="this.style.color='#6b5d4f'">natashagoodwinyoga@gmail.com</a>
+                    <div class="contact-label">
+                        natashagoodwinyoga@gmail.com
                     </div>
                 </div>
             </div>
