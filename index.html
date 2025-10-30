@@ -117,6 +117,7 @@
         .content-section#locationSection {
             max-width: 65vmin;
             padding-top: 0.2rem;
+            padding-bottom: 3rem;
             position: relative;
         }
 
@@ -137,6 +138,7 @@
             max-height: 50vh;
             position: relative;
             padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -603,9 +605,11 @@
             }
 
             .content-section#locationSection {
+				transform: translateY(-6%);
                 max-width: 88vmin;
                 padding: 0.8rem 0.5rem;
 		        max-height: 80%;
+                padding-bottom: 2.5rem;
             }
 
             .content-section#aboutSection {
@@ -619,7 +623,8 @@
             }
 
             .scroll-container {
-                max-height: 38vh;
+                max-height: 24vh;
+                margin-bottom: 0.3rem;
             }
 
             .scroll-container::-webkit-scrollbar {
@@ -647,7 +652,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="site-name">
+        <div class="site-name home-link">
             <span class="name">Natasha Goodwin</span>
             <span class="yoga">Yoga</span>
         </div>
@@ -677,7 +682,7 @@
                       <img src="headshot.JPG">
                     </div>
                     <p class="about-text">
-Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, and it completely changed my life. Quickly after realizing its healing potential, I devoted myself to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center in Portland, my practice as student and teacher is rooted in loving devotion. My intention is to study and share the practice to bring us closer together, and into real knowing of our deep interconnectedness. If you want to join hands in community, I'd love to share in practice with you.
+Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, and it has completely changed my life. Quickly after realizing its healing potential, I devoted myself to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center in Portland, my practice as student and teacher is rooted in loving devotion. My intention is to study and share the practice to bring us closer together, and into real knowing of our deep interconnectedness. If you want to join hands in community, I'd love to share in practice with you.
 
                     </p>
                 </div>
@@ -715,247 +720,236 @@ Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, an
     </div>
 
     <script>
-        // Weekly schedule template
-        const weeklySchedule = {
-            0: [ // Sunday
-                {
-                    time: '10:00am-11:00am',
-                    location: 'CCBA, Lebanon NH'
-                },
-                {
-                    time: '4:00pm-5:00pm',
-                    location: 'Studio 34, Claremont NH',
-                    excludeLastSunday: true
-                }
-            ],
-            1: [ // Monday
-                {
-                    time: '9:30am-10:30am',
-                    location: 'Meriden Library, Meriden NH'
-                },
-                {
-                    time: '5:30pm-6:30pm',
-                    location: 'The Notch Climbing Gym, Lebanon NH',
-                    link: 'https://www.thenotchclimbing.com/classes'
-                }
-            ],
-            2: [ // Tuesday
-                {
-                    time: '4:30pm-5:30pm',
-                    location: 'Dartmouth College, Hanover NH',
-                    link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes'
-                }
-            ],
-            3: [ // Wednesday
-                {
-                    time: '5:30pm-6:30pm',
-                    location: 'The Notch Climbing Gym, Lebanon NH',
-                    link: 'https://www.thenotchclimbing.com/classes'
-                }
-            ],
-            4: [], // Thursday - no classes
-            5: [ // Friday
-                {
-                    time: '9:30am-10:30am',
-                    location: 'Cornish Town Offices, Cornish NH'
-                }
-            ],
-            6: [ // Saturday
-                {
-                    time: '10:00am-11:00am',
-                    location: 'Stronghouse Spa, Quechee VT',
-                    mailto: 'natashagoodwinyoga@gmail.com',
-                    subject: 'Stronghouse Signup'
-                }
-            ]
-        };
+     // Weekly schedule template
+     const weeklySchedule = {
+         0: [ // Sunday
+              {
+                  time: '10:00am-11:00am',
+                  location: 'CCBA, Lebanon NH'
+              },
+              {
+                  time: '4:00pm-5:00pm',
+                  location: 'Studio 34, Claremont NH',
+                  excludeLastSunday: true
+              }
+         ],
+         1: [ // Monday
+              {
+                  time: '9:30am-10:30am',
+                  location: 'Meriden Library, Meriden NH'
+              },
+              {
+                  time: '5:30pm-6:30pm',
+                  location: 'The Notch Climbing Gym, Lebanon NH',
+                  link: 'https://www.thenotchclimbing.com/classes'
+              }
+         ],
+         2: [ // Tuesday
+              {
+                  time: '4:30pm-5:30pm',
+                  location: 'Dartmouth College, Hanover NH',
+                  link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes'
+              }
+         ],
+         3: [ // Wednesday
+              {
+                  time: '5:30pm-6:30pm',
+                  location: 'The Notch Climbing Gym, Lebanon NH',
+                  link: 'https://www.thenotchclimbing.com/classes'
+              }
+         ],
+         4: [], // Thursday - no classes
+         5: [ // Friday
+              {
+                  time: '9:30am-10:30am',
+                  location: 'Cornish Town Offices, Cornish NH'
+              }
+         ],
+         6: [ // Saturday
+              {
+                  time: '10:00am-11:00am',
+                  location: 'Stronghouse Spa, Quechee VT',
+                  mailto: 'natashagoodwinyoga@gmail.com',
+                  subject: 'Stronghouse Signup'
+              }
+         ]
+     };
 
-        function isLastSundayOfMonth(date) {
-            const day = date.getDay();
-            if (day !== 0) return false;
-            
-            const month = date.getMonth();
-            const nextSunday = new Date(date);
-            nextSunday.setDate(date.getDate() + 7);
-            
-            return nextSunday.getMonth() !== month;
-        }
+     function isLastSundayOfMonth(date) {
+         const day = date.getDay();
+         if (day !== 0) return false;
+         
+         const month = date.getMonth();
+         const nextSunday = new Date(date);
+         nextSunday.setDate(date.getDate() + 7);
+         
+         return nextSunday.getMonth() !== month;
+     }
 
-        function generateCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
+     function generateCalendar() {
+         const calendarGrid = document.getElementById('calendarGrid');
+         calendarGrid.innerHTML = '';
 
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            // Generate 14 days starting from today
-            for (let i = 0; i < 14; i++) {
-                const currentDate = new Date(today);
-                currentDate.setDate(today.getDate() + i);
-                
-                const dayOfWeek = currentDate.getDay();
-                const classes = weeklySchedule[dayOfWeek];
-                
-                // Filter classes based on exclusion rules
-                const filteredClasses = classes.filter(classInfo => {
-                    if (classInfo.excludeLastSunday && dayOfWeek === 0) {
-                        return !isLastSundayOfMonth(currentDate);
-                    }
-                    return true;
-                });
-                
-                // Skip days with no classes after filtering
-                if (!filteredClasses || filteredClasses.length === 0) {
-                    continue;
-                }
-                
-                // Add day header with date
-                const header = document.createElement('div');
-                header.className = 'calendar-day-header';
-                const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
-                header.textContent = dateStr;
-                calendarGrid.appendChild(header);
-                
-                // Add day's schedule
-                const dateDiv = document.createElement('div');
-                dateDiv.className = 'calendar-date has-class';
-                
-                // Add classes
-                filteredClasses.forEach((classInfo, index) => {
-                    if (index > 0) {
-                        const separator = document.createElement('div');
-                        separator.className = 'class-separator';
-                        dateDiv.appendChild(separator);
-                    }
-                    
-                    const classInfoDiv = document.createElement('div');
-                    classInfoDiv.className = 'class-info';
-                    
-                    const timeDiv = document.createElement('div');
-                    timeDiv.className = 'class-time';
-                    timeDiv.textContent = classInfo.time;
-                    classInfoDiv.appendChild(timeDiv);
-                    
-                    if (classInfo.mailto) {
-                        const locationDiv = document.createElement('div');
-                        locationDiv.className = 'class-location';
-                        locationDiv.textContent = classInfo.location;
-                        classInfoDiv.appendChild(locationDiv);
-                        
-                        const signupLink = document.createElement('a');
-                        signupLink.className = 'class-link';
-                        signupLink.href = `mailto:${classInfo.mailto}?subject=${encodeURIComponent(classInfo.subject)}`;
-                        signupLink.textContent = 'Email to sign up';
-                        classInfoDiv.appendChild(signupLink);
-                    } else if (classInfo.link) {
-                        const locationDiv = document.createElement('div');
-                        locationDiv.className = 'class-location';
-                        locationDiv.textContent = classInfo.location;
-                        classInfoDiv.appendChild(locationDiv);
-                        
-                        const signupLink = document.createElement('a');
-                        signupLink.className = 'class-link';
-                        signupLink.href = classInfo.link;
-                        signupLink.target = '_blank';
-                        signupLink.textContent = 'Sign up';
-                        classInfoDiv.appendChild(signupLink);
-                    } else {
-                        const locationDiv = document.createElement('div');
-                        locationDiv.className = 'class-location';
-                        locationDiv.textContent = classInfo.location;
-                        classInfoDiv.appendChild(locationDiv);
-                    }
-                    
-                    dateDiv.appendChild(classInfoDiv);
-                });
-                
-                calendarGrid.appendChild(dateDiv);
-            }
-        }
+         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+         
+         const today = new Date();
+         today.setHours(0, 0, 0, 0);
+         
+         // Generate 14 days starting from today
+         for (let i = 0; i < 14; i++) {
+             const currentDate = new Date(today);
+             currentDate.setDate(today.getDate() + i);
+             
+             const dayOfWeek = currentDate.getDay();
+             const classes = weeklySchedule[dayOfWeek];
+             
+             // Filter classes based on exclusion rules
+             const filteredClasses = classes.filter(classInfo => {
+                 if (classInfo.excludeLastSunday && dayOfWeek === 0) {
+                     return !isLastSundayOfMonth(currentDate);
+                 }
+                 return true;
+             });
+             
+             // Skip days with no classes after filtering
+             if (!filteredClasses || filteredClasses.length === 0) {
+                 continue;
+             }
+             
+             // Add day header with date
+             const header = document.createElement('div');
+             header.className = 'calendar-day-header';
+             const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
+             header.textContent = dateStr;
+             calendarGrid.appendChild(header);
+             
+             // Add day's schedule
+             const dateDiv = document.createElement('div');
+             dateDiv.className = 'calendar-date has-class';
+             
+             // Add classes
+             filteredClasses.forEach((classInfo, index) => {
+                 if (index > 0) {
+                     const separator = document.createElement('div');
+                     separator.className = 'class-separator';
+                     dateDiv.appendChild(separator);
+                 }
+                 
+                 const classInfoDiv = document.createElement('div');
+                 classInfoDiv.className = 'class-info';
+                 
+                 const timeDiv = document.createElement('div');
+                 timeDiv.className = 'class-time';
+                 timeDiv.textContent = classInfo.time;
+                 classInfoDiv.appendChild(timeDiv);
+				
+				 if (classInfo.link) {
+                     const locationDiv = document.createElement('div');
+                     locationDiv.className = 'class-location';
+                     locationDiv.textContent = classInfo.location;
+                     classInfoDiv.appendChild(locationDiv);
+                     
+                     const signupLink = document.createElement('a');
+                     signupLink.className = 'class-link';
+                     signupLink.href = classInfo.link;
+                     signupLink.target = '_blank';
+                     signupLink.textContent = 'Sign up';
+                     classInfoDiv.appendChild(signupLink);
+                 } else {
+                     const locationDiv = document.createElement('div');
+                     locationDiv.className = 'class-location';
+                     locationDiv.textContent = classInfo.location;
+                     classInfoDiv.appendChild(locationDiv);
+                 }
+                 
+                 dateDiv.appendChild(classInfoDiv);
+             });
+             
+             calendarGrid.appendChild(dateDiv);
+         }
+     }
 
-        // Navigation
-        const sections = {
-            welcome: document.getElementById('welcomeSection'),
-            about: document.getElementById('aboutSection'),
-            location: document.getElementById('locationSection'),
-            contact: document.getElementById('contactSection')
-        };
+     // Navigation
+     const sections = {
+         welcome: document.getElementById('welcomeSection'),
+         about: document.getElementById('aboutSection'),
+         location: document.getElementById('locationSection'),
+         contact: document.getElementById('contactSection')
+     };
 
-        const homeLinks = document.querySelectorAll('.home-link');
-        const navLinks = document.querySelectorAll('.nav-link');
+     const homeLinks = document.querySelectorAll('.home-link');
+     const navLinks = document.querySelectorAll('.nav-link');
 
-        let currentSection = 'welcome';
+     let currentSection = 'welcome';
 
-        function showSection(sectionName) {
-            sections[currentSection].classList.remove('active');
-            
-            setTimeout(() => {
-                currentSection = sectionName;
-                sections[currentSection].classList.add('active');
-            }, 300);
-        }
+     function showSection(sectionName) {
+         sections[currentSection].classList.remove('active');
+         
+         setTimeout(() => {
+             currentSection = sectionName;
+             sections[currentSection].classList.add('active');
+         }, 300);
+     }
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.getAttribute('data-section');
-                showSection(section);
-            });
-        });
+     navLinks.forEach(link => {
+         link.addEventListener('click', (e) => {
+             e.preventDefault();
+             const section = link.getAttribute('data-section');
+             showSection(section);
+         });
+     });
 
-        homeLinks.forEach(homeLink => {
-            homeLink.addEventListener('click', () => {
-                showSection('welcome');
-            });
-        });
+     homeLinks.forEach(homeLink => {
+         homeLink.addEventListener('click', () => {
+             showSection('welcome');
+         });
+     });
 
-        // Generate calendar on page load
-        generateCalendar();
+     // Generate calendar on page load
+     generateCalendar();
 
-        // Scroll indicator functionality
-        const scrollContainer = document.getElementById('scrollContainer');
-        const scrollIndicator = document.getElementById('scrollIndicator');
+     // Scroll indicator functionality
+     const scrollContainer = document.getElementById('scrollContainer');
+     const scrollIndicator = document.getElementById('scrollIndicator');
 
-        // Check if content is scrollable and show/hide indicator
-        function updateScrollIndicator() {
-            if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
-                const isAtBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10;
-                if (isAtBottom) {
-                    scrollIndicator.classList.add('hidden');
-                } else {
-                    scrollIndicator.classList.remove('hidden');
-                }
-            } else {
-                scrollIndicator.classList.add('hidden');
-            }
-        }
+     // Check if content is scrollable and show/hide indicator
+     function updateScrollIndicator() {
+         if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
+             const isAtBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10;
+             if (isAtBottom) {
+                 scrollIndicator.classList.add('hidden');
+             } else {
+                 scrollIndicator.classList.remove('hidden');
+             }
+         } else {
+             scrollIndicator.classList.add('hidden');
+         }
+     }
 
-        // Scroll down by 60% of visible container height when clicking arrow
-        scrollIndicator.addEventListener('click', () => {
-            const scrollAmount = scrollContainer.clientHeight * 0.6;
-            scrollContainer.scrollBy({
-                top: scrollAmount,
-                behavior: 'smooth'
-            });
-        });
+     // Scroll down by 60% of visible container height when clicking arrow
+     scrollIndicator.addEventListener('click', () => {
+         const scrollAmount = scrollContainer.clientHeight * 0.6;
+         scrollContainer.scrollBy({
+             top: scrollAmount,
+             behavior: 'smooth'
+         });
+     });
 
-        // Update indicator visibility on scroll
-        scrollContainer.addEventListener('scroll', updateScrollIndicator);
+     // Update indicator visibility on scroll
+     scrollContainer.addEventListener('scroll', updateScrollIndicator);
 
-        // Update indicator when location section becomes active
-        const locationSection = document.getElementById('locationSection');
-        const observer = new MutationObserver(() => {
-            if (locationSection.classList.contains('active')) {
-                setTimeout(updateScrollIndicator, 100);
-            }
-        });
-        observer.observe(locationSection, { attributes: true, attributeFilter: ['class'] });
+     // Update indicator when location section becomes active
+     const locationSection = document.getElementById('locationSection');
+     const observer = new MutationObserver(() => {
+         if (locationSection.classList.contains('active')) {
+             setTimeout(updateScrollIndicator, 100);
+         }
+     });
+     observer.observe(locationSection, { attributes: true, attributeFilter: ['class'] });
 
-        // Initial check
-        updateScrollIndicator();
+     // Initial check
+     updateScrollIndicator();
     </script>
 </body>
 </html>
