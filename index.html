@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natasha Goodwin Yoga</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            background: linear-gradient(to bottom, #E5E6DC 0%, #f9f3ea 30%, #f5e8d8 60%, #f7efe3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .site-name {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            z-index: 10;
+            line-height: 1.6;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .site-name .name {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: block;
+            color: #5a5550;
+        }
+
+        .site-name .yoga {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 0.25rem;
+            color: #5a5550;
+        }
+
+        .sun-circle {
+            position: relative;
+            width: 95vmin;
+            height: 95vmin;
+            background: radial-gradient(circle,
+                rgba(255, 195, 75, 0.65) 0%,
+                rgba(255, 180, 60, 0.55) 25%,
+                rgba(250, 170, 55, 0.4) 50%,
+                rgba(245, 160, 50, 0.25) 70%,
+                rgba(240, 150, 45, 0.12) 85%,
+                rgba(235, 145, 40, 0) 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .home-link {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #9d8b7a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .home-link:hover {
+            color: #6b5d4f;
+        }
+
+        .content-section {
+            position: absolute;
+            z-index: 15;
+            text-align: center;
+            padding: 2rem;
+            max-width: 70vmin;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            overflow: hidden;
+        }
+
+        .content-section#contactSection {
+            max-width: 85vmin;
+        }
+
+        .content-section#locationSection {
+            max-width: 65vmin;
+            padding-top: 0.2rem;
+            position: relative;
+        }
+
+        .content-section#aboutSection {
+            max-width: 80vmin;
+        }
+
+        .content-section#locationSection .home-link {
+            margin-bottom: 0.3rem;
+        }
+
+        .content-section#locationSection .section-title {
+            margin-bottom: 0.3rem;
+        }
+
+        .scroll-container {
+            overflow-y: auto;
+            max-height: 50vh;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(157, 139, 122, 0.15);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(157, 139, 122, 0.4);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(157, 139, 122, 0.6);
+        }
+
+        /* Firefox scrollbar styling */
+        .scroll-container {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
+        }
+
+        .content-section.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            color: #6b5d4f;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #6b5d4f;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: #9d8b7a;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: #6b5d4f;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .about-image {
+            width: 470px;
+            height: 260px;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+        }
+
+        img {
+            border-radius: inherit;
+            display: block;
+            flex: 1;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+        }
+
+        .about-text {
+            color: #6b5d4f;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            width: 600px;
+        }
+
+        .calendar-container {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 0.3rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            font-size: 1rem;
+            color: #6b5d4f;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .calendar-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            color: #9d8b7a;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 0.3rem 0 0.2rem 0;
+            border-bottom: 1px solid rgba(157, 139, 122, 0.3);
+        }
+
+        .calendar-date {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            min-height: auto;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-date:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .calendar-date.has-class {
+            background: rgba(157, 139, 122, 0.15);
+        }
+
+        .calendar-date.has-class:hover {
+            background: rgba(157, 139, 122, 0.25);
+        }
+
+        .calendar-date.empty {
+            background: transparent;
+            min-height: 0;
+            padding: 0;
+        }
+
+        .date-number {
+            color: #6b5d4f;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .class-info {
+            font-size: 0.65rem;
+            color: #6b5d4f;
+            line-height: 1.4;
+            letter-spacing: 0.2px;
+        }
+
+        .class-time {
+            font-weight: 600;
+            color: #9d8b7a;
+            font-size: 0.68rem;
+        }
+
+        .class-location {
+            margin-top: 0.1rem;
+        }
+
+        .class-link {
+            margin-top: 0.25rem;
+            font-size: 0.62rem;
+            color: #4a5a68;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .class-link:hover {
+            color: #5f7588;
+        }
+
+        .class-separator {
+            margin: 0.3rem 0;
+            border-top: 1px solid rgba(107, 93, 79, 0.2);
+        }
+
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .contact-item {
+            color: #6b5d4f;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+
+        .contact-label {
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: #9d8b7a;
+        }
+
+        @media (max-width: 768px) {
+            .site-name {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.5rem;
+            }
+
+            .site-name .name {
+                font-size: 0.65rem;
+            }
+
+            .site-name .yoga {
+                font-size: 0.65rem;
+            }
+
+            .welcome-text h1 {
+                font-size: 1.4rem;
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+                max-width: 80vmin;
+            }
+
+            .content-section#aboutSection {
+                max-width: 85vmin;
+            }
+
+            .content-section#locationSection {
+                max-width: 80vmin;
+            }
+
+			.section-title {
+				margin-bottom: 0.4rem;
+			}
+
+            .about-image {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+                aspect-ratio: 470 / 260;
+            }
+
+            .about-text {
+                width: 100%;
+                max-width: 450px;
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+
+            .calendar-container {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .scroll-container {
+                max-height: 42vh;
+            }
+
+            .calendar-day-header {
+                font-size: 0.6rem;
+            }
+
+            .class-time {
+                font-size: 0.63rem;
+            }
+
+            .class-info {
+                font-size: 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-name {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.3rem;
+            }
+
+            .site-name .name {
+                font-size: 0.55rem;
+                letter-spacing: 2px;
+            }
+
+            .site-name .yoga {
+                font-size: 0.55rem;
+                letter-spacing: 2px;
+            }
+
+            .welcome-text h1 {
+                font-size: 1.1rem;
+            }
+
+            .welcome-text {
+                margin-bottom: 1.8rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.6rem;
+            }
+
+			.about-content {
+				gap: 0.5rem;
+			}
+
+            .about-image {
+                width: 100%;
+                max-width: 150px;
+                height: auto;
+                gap: 0.5rem;
+				margin-bottom: 0.4rem;
+
+            }
+
+            .about-text {
+                width: 100%;
+                font-size: 0.7rem;
+                line-height: 1;
+                padding: 0 0.5rem;
+				max-height: 85vmin;
+            }
+
+            .calendar-container {
+                max-width: 100%;
+				width: 100%;
+				max-height: 75%;
+            }
+
+            .calendar-date {
+                min-height: auto;
+                padding: 0.4rem;
+            }
+
+            .date-number {
+                font-size: 0.65rem;
+            }
+
+            .class-info {
+                font-size: 0.58rem;
+            }
+
+            .class-time {
+                font-size: 0.6rem;
+            }
+
+            .calendar-day-header {
+                font-size: 0.58rem;
+            }
+
+            .calendar-header {
+                font-size: 0.9rem;
+            }
+
+            .content-section {
+                padding: 0.8rem;
+                max-width: 88vmin;
+            }
+
+            .content-section#locationSection {
+                max-width: 88vmin;
+                padding: 0.8rem 0.5rem;
+		        max-height: 80%;
+            }
+
+            .content-section#aboutSection {
+				transform: translateY(-8%);
+                max-width: 88vmin;
+            }
+
+            .home-link {
+                font-size: 0.65rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .scroll-container {
+                max-height: 38vh;
+            }
+
+            .scroll-container::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contact-item {
+                font-size: 0.85rem;
+            }
+
+            .contact-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="site-name">
+            <span class="name">Natasha Goodwin</span>
+            <span class="yoga">Yoga</span>
+        </div>
+        
+        <div class="sun-circle">
+            
+            <!-- Welcome Section -->
+            <div class="content-section active" id="welcomeSection">
+                <div class="welcome-text">
+                    <h1>I'm so glad<br>you're here</h1>
+                </div>
+
+                <nav class="nav-links">
+                    <a class="nav-link" data-section="about">About Me</a>
+                    <a class="nav-link" data-section="location">Where to Find Me</a>
+                    <a class="nav-link" data-section="contact">Contact Me</a>
+                </nav>
+            </div>
+
+            <!-- About Section -->
+            <div class="content-section" id="aboutSection">
+                <div class="home-link" id="homeLink1">[HOME]</div>
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                      <img src="about.JPG">
+                      <img src="headshot.JPG">
+                    </div>
+                    <p class="about-text">
+Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, and it completely changed my life. Quickly after realizing its healing potential, I devoted myself to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center in Portland, my practice as student and teacher is rooted in loving devotion. My intention is to study and share the practice to bring us closer together, and into real knowing of our deep interconnectedness. If you want to join hands in community, I'd love to share in practice with you.
+
+                    </p>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="content-section" id="locationSection">
+                <div class="home-link" id="homeLink2">[HOME]</div>
+                <h2 class="section-title">Where to Find Me</h2>
+                <div class="calendar-container">
+                    <div class="scroll-container" id="scrollContainer">
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="content-section" id="contactSection">
+                <div class="home-link" id="homeLink3">[HOME]</div>
+                <h2 class="section-title">Contact Me</h2>
+                <div class="contact-content">
+                    <div class="contact-item">
+                        <div class="contact-label">natashagoodwinyoga@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Weekly schedule template
+        const weeklySchedule = {
+            0: [ // Sunday
+                {
+                    time: '10:00am-11:00am',
+                    location: 'CCBA, Lebanon NH'
+                },
+                {
+                    time: '4:00pm-5:00pm',
+                    location: 'Studio 34, Claremont NH',
+                    link: 'https://www.studio34nh.com/yogaclaremontnh',
+                    excludeLastSunday: true
+                }
+            ],
+            1: [ // Monday
+                {
+                    time: '9:30am-10:30am',
+                    location: 'Meriden Library, Meriden NH'
+                },
+                {
+                    time: '5:30pm-6:30pm',
+                    location: 'The Notch Climbing Gym, Lebanon NH',
+                    link: 'https://www.thenotchclimbing.com/classes'
+                }
+            ],
+            2: [ // Tuesday
+                {
+                    time: '4:30pm-5:30pm',
+                    location: 'Dartmouth College, Hanover NH',
+                    link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes'
+                }
+            ],
+            3: [ // Wednesday
+                {
+                    time: '5:30pm-6:30pm',
+                    location: 'The Notch Climbing Gym, Lebanon NH',
+                    link: 'https://www.thenotchclimbing.com/classes'
+                }
+            ],
+            4: [], // Thursday - no classes
+            5: [ // Friday
+                {
+                    time: '9:30am-10:30am',
+                    location: 'Cornish Town Offices, Cornish NH'
+                }
+            ],
+            6: [ // Saturday
+                {
+                    time: '10:00am-11:00am',
+                    location: 'Stronghouse Spa, Quechee VT'
+                }
+            ]
+        };
+
+        function isLastSundayOfMonth(date) {
+            const day = date.getDay();
+            if (day !== 0) return false;
+            
+            const month = date.getMonth();
+            const nextSunday = new Date(date);
+            nextSunday.setDate(date.getDate() + 7);
+            
+            return nextSunday.getMonth() !== month;
+        }
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Generate 14 days starting from today
+            for (let i = 0; i < 14; i++) {
+                const currentDate = new Date(today);
+                currentDate.setDate(today.getDate() + i);
+                
+                const dayOfWeek = currentDate.getDay();
+                const classes = weeklySchedule[dayOfWeek];
+                
+                // Filter classes based on exclusion rules
+                const filteredClasses = classes.filter(classInfo => {
+                    if (classInfo.excludeLastSunday && dayOfWeek === 0) {
+                        return !isLastSundayOfMonth(currentDate);
+                    }
+                    return true;
+                });
+                
+                // Skip days with no classes after filtering
+                if (!filteredClasses || filteredClasses.length === 0) {
+                    continue;
+                }
+                
+                // Add day header with date
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
+                header.textContent = dateStr;
+                calendarGrid.appendChild(header);
+                
+                // Add day's schedule
+                const dateDiv = document.createElement('div');
+                dateDiv.className = 'calendar-date has-class';
+                
+                // Add classes
+                filteredClasses.forEach((classInfo, index) => {
+                    if (index > 0) {
+                        const separator = document.createElement('div');
+                        separator.className = 'class-separator';
+                        dateDiv.appendChild(separator);
+                    }
+                    
+                    const classInfoDiv = document.createElement('div');
+                    classInfoDiv.className = 'class-info';
+                    
+                    const timeDiv = document.createElement('div');
+                    timeDiv.className = 'class-time';
+                    timeDiv.textContent = classInfo.time;
+                    classInfoDiv.appendChild(timeDiv);
+                    
+                    if (classInfo.link) {
+                        const locationLink = document.createElement('a');
+                        locationLink.className = 'class-location class-link';
+                        locationLink.href = classInfo.link;
+                        locationLink.target = '_blank';
+                        locationLink.textContent = classInfo.location;
+                        locationLink.style.textDecoration = 'none';
+                        locationLink.style.color = '#6b5d4f';
+                        locationLink.style.cursor = 'pointer';
+                        classInfoDiv.appendChild(locationLink);
+                    } else {
+                        const locationDiv = document.createElement('div');
+                        locationDiv.className = 'class-location';
+                        locationDiv.textContent = classInfo.location;
+                        classInfoDiv.appendChild(locationDiv);
+                    }
+                    
+                    dateDiv.appendChild(classInfoDiv);
+                });
+                
+                calendarGrid.appendChild(dateDiv);
+            }
+        }
+
+        // Navigation
+        const sections = {
+            welcome: document.getElementById('welcomeSection'),
+            about: document.getElementById('aboutSection'),
+            location: document.getElementById('locationSection'),
+            contact: document.getElementById('contactSection')
+        };
+
+        const homeLinks = document.querySelectorAll('.home-link');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        let currentSection = 'welcome';
+
+        function showSection(sectionName) {
+            sections[currentSection].classList.remove('active');
+            
+            setTimeout(() => {
+                currentSection = sectionName;
+                sections[currentSection].classList.add('active');
+            }, 300);
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                showSection(section);
+            });
+        });
+
+        homeLinks.forEach(homeLink => {
+            homeLink.addEventListener('click', () => {
+                showSection('welcome');
+            });
+        });
+
+        // Generate calendar on page load
+        generateCalendar();
+    </script>
+</body>
+</html>
