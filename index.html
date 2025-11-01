@@ -99,7 +99,7 @@
             color: #9d8b7a;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: clamp(0.6rem, 1.3vmin, 1.3rem);
+            margin-bottom: clamp(0.3rem, 1vmin, 1rem);
             display: block;
         }
 
@@ -190,7 +190,7 @@
 
         .welcome-text h1 {
             font-size: clamp(1.8rem, 3.5vmin, 3.5rem);
-            color: #6b5d4f;
+            color: #7d6f61;
             font-weight: 300;
             letter-spacing: clamp(1.5px, 0.3vmin, 3px);
             line-height: 1.6;
@@ -208,7 +208,7 @@
 
         .nav-link {
             text-decoration: none;
-            color: #6b5d4f;
+            color: #8d7d6e;
             font-size: clamp(1.2rem, 1.8vmin, 1.8rem);
             letter-spacing: clamp(1.2px, 0.25vmin, 2.5px);
             transition: all 0.3s ease;
@@ -217,7 +217,8 @@
         }
 
         .nav-link:hover {
-            color: #9d8b7a;
+            color: #6b5d4f;
+            transform: translateY(-2px);
         }
 
         .section-title {
@@ -332,8 +333,8 @@
 
         .calendar-container {
             width: 100%;
-            max-width: min(400px, 45vmin);
-            margin-top: clamp(0.4rem, 0.6vmin, 0.6rem);
+            max-width: min(600px, 65vmin);
+            margin-top: clamp(0.2rem, 0.4vmin, 0.4rem);
         }
 
         .calendar-header {
@@ -356,8 +357,8 @@
      .calendar-day-header {
          text-align: center;
          color: #031602;
-		 opacity: 0.6;
-         font-size: clamp(1rem, 1.2vmin, 1.3rem);
+		 opacity: 0.5;
+         font-size: clamp(1.05rem, 1.3vmin, 1.4rem);
          font-weight: 600;
          letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
          text-transform: uppercase;
@@ -420,7 +421,7 @@
 
         .class-link {
             margin-top: clamp(0.3rem, 0.4vmin, 0.4rem);
-            font-size: clamp(1rem, 1.2vmin, 1.1rem);
+            font-size: clamp(0.95rem, 1.1vmin, 1.05rem);
             color: #4a5a68;
             text-decoration: underline;
             cursor: pointer;
@@ -430,19 +431,39 @@
             color: #5f7588;
         }
 
-        .class-separator {
-            margin: clamp(0.35rem, 0.5vmin, 0.5rem) 0;
-            border-top: 1px solid rgba(107, 93, 79, 0.2);
-        }
+	 
+	 .class-helper {
+		 margin-top: clamp(0.3rem, 0.4vmin, 0.4rem);
+         font-size: clamp(0.95rem, 1.1vmin, 1.05rem);
+         color: #4a5a68;
+         text-decoration: none;
+         cursor: default;
+	 }
+	 
 
-        .contact-content {
-            display: flex;
-            flex-direction: column;
-            gap: clamp(2rem, 3vmin, 3rem);
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
+
+     .class-separator {
+         margin: clamp(0.35rem, 0.5vmin, 0.5rem) 0;
+         border-top: 1px solid rgba(107, 93, 79, 0.2);
+     }
+
+	 #contact-text {
+		 color: #6b5d4f;
+         font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
+         letter-spacing: 0.5px;
+         line-height: 1.8;
+         font-weight: 300;
+         margin-bottom: clamp(1rem, 1.5vmin, 1.5rem);
+	 }
+
+     .contact-content {
+         display: flex;
+         flex-direction: column;
+         gap: clamp(1.5rem, 3vmin, 2.5rem);
+         align-items: center;
+         justify-content: center;
+         width: 85%;
+     }
 
         .contact-item {
             color: #6b5d4f;
@@ -452,11 +473,11 @@
         }
 
         .contact-label {
-            font-weight: 300;
-            letter-spacing: clamp(1px, 0.2vmin, 2px);
-            font-size: clamp(1.1rem, 1.4vmin, 1.4rem);
-            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: clamp(0.8px, 0.18vmin, 1.8px);
+            font-size: clamp(1.8rem, 2.6vmin, 2.6rem);
             color: #9d8b7a;
+            line-height: 1.4;
         }
 
         .scroll-indicator {
@@ -527,12 +548,21 @@
 		 .about-text {
 			 font-size: clamp(0.65rem, 2vmin, 1.3rem);
 		 }
+
+		 .home-link {
+             font-size: clamp(1.2rem, 1.5vmin, 1.5rem);
+         }
 	 }
 
      @media (max-width: 768px) {
          .sun-circle {
              width: 94vmin;
              height: 94vmin;
+         }
+		 
+		 .home-link {
+			 font-size: clamp(1rem, 1.3vmin, 1.3rem);
+
          }
 
          .content-section {
@@ -573,6 +603,24 @@
              padding: clamp(0.4rem, 1vmin, 1.2rem);
          }
 
+         .content-section#contactSection {
+             max-width: 84vmin;
+         }
+
+         #contact-text {
+             font-size: clamp(0.75rem, 1vmin, 1rem);
+             margin-bottom: clamp(0.5rem, 0.8vmin, 0.8rem);
+         }
+
+         .contact-label {
+             font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
+         }
+
+         .contact-content {
+             width: 90%;
+             gap: clamp(0.8rem, 1.5vmin, 1.5rem);
+         }
+
          .about-image {
              max-width: min(260px, 32vmin);
          }
@@ -606,7 +654,7 @@
 
          .calendar-container {
 			 margin-top: 0;
-             max-width: min(340px, 40vmin);
+             max-width: min(420px, 50vmin);
          }
 
          .scroll-container {
@@ -632,7 +680,12 @@
          }
 
          .class-link {
-             font-size: clamp(0.68rem, 0.85vmin, 0.85rem);
+             font-size: clamp(0.65rem, 0.82vmin, 0.82rem);
+             margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
+         }
+
+         .class-helper {
+             font-size: clamp(0.65rem, 0.82vmin, 0.82rem);
              margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
          }
 
@@ -650,6 +703,24 @@
 
             .content-section#aboutSection {
                 padding: clamp(0.3rem, 0.8vmin, 1rem);
+            }
+
+            .content-section#contactSection {
+                max-width: 86vmin;
+            }
+
+            #contact-text {
+                font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
+                margin-bottom: clamp(0.4rem, 0.6vmin, 0.6rem);
+            }
+
+            .contact-label {
+                font-size: clamp(1rem, 1.4vmin, 1.4rem);
+            }
+
+            .contact-content {
+                width: 92%;
+                gap: clamp(0.6rem, 1.2vmin, 1.2rem);
             }
 
             .about-image {
@@ -678,7 +749,7 @@
 
             .calendar-container {
 				margin-top: 0;
-                max-width: min(310px, 38vmin);
+                max-width: min(340px, 48vmin);
             }
 
             .scroll-container {
@@ -704,117 +775,17 @@
             .class-time {
                 font-size: clamp(0.72rem, 0.9vmin, 0.9rem);
             }
-        }
 
-     /* @media (max-height: 700px) {
-        .sun-circle {
-        width: 92vmin;
-        height: 92vmin;
-        }
+            .class-link {
+                font-size: clamp(0.62rem, 0.78vmin, 0.78rem);
+                margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
+            }
 
-        .welcome-text h1 {
-        font-size: clamp(1.5rem, 3vh, 3rem);
+            .class-helper {
+                font-size: clamp(0.62rem, 0.78vmin, 0.78rem);
+                margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
+            }
         }
-
-        .nav-link {
-        font-size: clamp(1rem, 1.5vh, 1.5rem);
-        }
-
-        .section-title {
-        font-size: clamp(1.4rem, 2.2vh, 2.2rem);
-        margin-bottom: clamp(0.6rem, 1.2vh, 1.2rem);
-        }
-
-        .about-text {
-        font-size: clamp(0.85rem, 1.15vh, 1.15rem);
-        line-height: 1.6;
-        }
-
-        .about-image {
-        max-width: min(480px, 46vmin);
-        }
-
-        .content-section {
-        padding: clamp(1.2rem, 2.5vh, 2.5rem);
-        }
-
-        .about-content {
-        gap: clamp(0.8rem, 1.5vh, 1.5rem);
-        }
-
-        .scroll-container {
-        max-height: min(50vh, 48vmin);
-        }
-        }
-
-        @media (max-height: 600px) {
-        .sun-circle {
-        width: 90vmin;
-        height: 90vmin;
-        }
-
-        .welcome-text h1 {
-        font-size: clamp(1.3rem, 2.8vh, 2.5rem);
-        }
-
-        .nav-link {
-        font-size: clamp(0.9rem, 1.3vh, 1.3rem);
-        }
-
-        .section-title {
-        font-size: clamp(1.2rem, 2vh, 2rem);
-        margin-bottom: clamp(0.5rem, 1vh, 1rem);
-        }
-
-        .about-text {
-        font-size: clamp(0.75rem, 1vh, 1rem);
-        line-height: 1.55;
-        }
-
-        .about-image {
-        max-width: min(420px, 42vmin);
-        }
-
-        .content-section {
-        padding: clamp(1rem, 2vh, 2rem);
-        }
-
-        .about-content {
-        gap: clamp(0.6rem, 1.2vh, 1.2rem);
-        }
-
-        .scroll-container {
-        max-height: min(48vh, 45vmin);
-        }
-        }
-
-        @media (max-height: 500px) {
-        .sun-circle {
-        width: 88vmin;
-        height: 88vmin;
-        }
-
-        .about-text {
-        font-size: clamp(0.7rem, 0.95vh, 0.95rem);
-        line-height: 1.5;
-        }
-
-        .about-image {
-        max-width: min(360px, 38vmin);
-        }
-
-        .section-title {
-        font-size: clamp(1.1rem, 1.8vh, 1.8rem);
-        }
-
-        .about-content {
-        gap: clamp(0.5rem, 1vh, 1rem);
-        }
-
-        .scroll-container {
-        max-height: min(45vh, 42vmin);
-        } */
-     /* } */
     </style>
 </head>
 <body>
@@ -825,7 +796,7 @@
         </div>
         
         <div class="sun-circle">
-            
+            <div class="home-link" id= "top-home-link">[HOME]</div>
             <!-- Welcome Section -->
             <div class="content-section active" id="welcomeSection">
                 <div class="welcome-text">
@@ -841,15 +812,14 @@
 
             <!-- About Section -->
             <div class="content-section" id="aboutSection">
-                <div class="home-link" id="homeLink1">[HOME]</div>
-                <h2 class="section-title">About</h2>
                 <div class="about-content">
                     <div class="about-image">
                       <img src="about.JPG" class="clickable-image" alt="About Natasha">
                       <img src="headshot.JPG" class="clickable-image" alt="Natasha headshot">
                     </div>
                     <p class="about-text">
-Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center, my practice is rooted in loving devotion. As student and teacher now, my intention is to share the gift of yoga to bring us together. If you want to join hands in community, I'd love to practice with you.                    </p>
+						Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center, my practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together. If you want to join hands in community, I'd love to practice with you.
+					</p>
                 </div>
             </div>
 
@@ -863,8 +833,6 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
 
             <!-- Location Section -->
             <div class="content-section" id="locationSection">
-                <div class="home-link" id="homeLink2">[HOME]</div>
-                <h2 class="section-title">Practice</h2>
                 <div class="calendar-container">
                     <div class="scroll-indicator scroll-up-indicator hidden" id="scrollUpIndicator">
                         <svg viewBox="0 0 24 24">
@@ -887,9 +855,8 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
 
             <!-- Contact Section -->
             <div class="content-section" id="contactSection">
-                <div class="home-link" id="homeLink3">[HOME]</div>
-                <h2 class="section-title">Connect</h2>
                 <div class="contact-content">
+					<span id = "contact-text"> For all yoga-related inquires, email me at: </span>
                     <div class="contact-label">
                         natashagoodwinyoga@gmail.com
                     </div>
@@ -904,18 +871,23 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
          0: [ // Sunday
               {
                   time: '10:00am-11:00am',
-                  location: 'CCBA, Lebanon NH'
+                  location: 'CCBA, Lebanon NH',
+				  helper: "Drop in"
+
               },
               {
                   time: '4:00pm-5:00pm',
                   location: 'Studio 34, Claremont NH',
-                  excludeLastSunday: true
+                  excludeLastSunday: true,
+				  helper: "Drop in"
+
               }
          ],
          1: [ // Monday
               {
                   time: '9:30am-10:30am',
-                  location: 'Meriden Library, Meriden NH'
+                  location: 'Meriden Library, Meriden NH',
+				  helper: "Drop in"
               },
               {
                   time: '5:30pm-6:30pm',
@@ -927,29 +899,32 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
               {
                   time: '4:30pm-5:30pm',
                   location: 'Dartmouth College, Hanover NH',
-                  link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes'
+                  link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes',
+                  endDate: new Date('2025-11-18')
               }
          ],
          3: [ // Wednesday
               {
                   time: '5:30pm-6:30pm',
                   location: 'The Notch Climbing Gym, Lebanon NH',
-                  link: 'https://www.thenotchclimbing.com/classes'
+                  link: 'https://www.thenotchclimbing.com/classes',
+                  excludeDate: new Date('2025-11-26')
               }
          ],
          4: [], // Thursday - no classes
          5: [ // Friday
               {
                   time: '9:30am-10:30am',
-                  location: 'Cornish Town Offices, Cornish NH'
+                  location: 'Cornish Town Offices, Cornish NH',
+				  helper: "Drop in",
+                  excludeDate: new Date('2025-11-28')
               }
          ],
          6: [ // Saturday
               {
                   time: '10:00am-11:00am',
                   location: 'Stronghouse Spa, Quechee VT',
-                  mailto: 'natashagoodwinyoga@gmail.com',
-                  subject: 'Stronghouse Signup'
+				  helper: "Email to sign up"
               }
          ]
      };
@@ -987,6 +962,20 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
              const filteredClasses = classes.filter(classInfo => {
                  if (classInfo.excludeLastSunday && dayOfWeek === 0) {
                      return !isLastSundayOfMonth(currentDate);
+                 }
+                 if (classInfo.endDate) {
+                     const endDate = new Date(classInfo.endDate);
+                     endDate.setHours(0, 0, 0, 0);
+                     if (currentDate > endDate) {
+                         return false;
+                     }
+                 }
+                 if (classInfo.excludeDate) {
+                     const excludeDate = new Date(classInfo.excludeDate);
+                     excludeDate.setHours(0, 0, 0, 0);
+                     if (currentDate.getTime() === excludeDate.getTime()) {
+                         return false;
+                     }
                  }
                  return true;
              });
@@ -1040,6 +1029,11 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
                      locationDiv.className = 'class-location';
                      locationDiv.textContent = classInfo.location;
                      classInfoDiv.appendChild(locationDiv);
+					 
+					 const helperDiv = document.createElement('span');
+					 helperDiv.className = 'class-helper';
+                     helperDiv.textContent = classInfo.helper;
+                     classInfoDiv.appendChild(helperDiv);
                  }
                  
                  dateDiv.appendChild(classInfoDiv);
@@ -1060,17 +1054,34 @@ Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 20
      const homeLinks = document.querySelectorAll('.home-link');
      const navLinks = document.querySelectorAll('.nav-link');
 
-     let currentSection = 'welcome';
+	 const topHomeLink = document.getElementById('top-home-link')
+	 topHomeLink.style.opacity = '0';
 
+
+	 let currentSection = 'welcome';
      function showSection(sectionName) {
          sections[currentSection].classList.remove('active');
-         
-         setTimeout(() => {
-             currentSection = sectionName;
-             sections[currentSection].classList.add('active');
-         }, 300);
-     }
+         currentSection = sectionName;
 
+         setTimeout(() => {
+             sections[currentSection].classList.add('active');
+             
+			 if (currentSection == 'welcome') {
+				 topHomeLink.style.opacity = '0';
+				 topHomeLink.style.pointerEvents = 'none';
+			 } else {
+				 topHomeLink.style.opacity = '1';
+				 topHomeLink.style.pointerEvents = 'auto';
+			 }
+             // Reset scroll position when showing location section
+             if (currentSection === 'location') {
+                 scrollContainer.scrollTop = 0;
+                 updateScrollIndicators();
+             }
+         }, 300);
+
+     }
+	 
      navLinks.forEach(link => {
          link.addEventListener('click', (e) => {
              e.preventDefault();
