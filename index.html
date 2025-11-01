@@ -21,6 +21,12 @@
             overflow-x: hidden;
         }
 
+        :root {
+            --scale-factor: min(1vw, 1vh);
+            --content-scale: calc(var(--scale-factor) * 1);
+            --about-scale: min(1.2vw, 1.4vh);
+        }
+
         .container {
             position: relative;
             width: 100%;
@@ -29,23 +35,24 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            padding: 2vmin;
         }
 
         .site-name {
             position: absolute;
-            top: 2rem;
-            left: 2rem;
+            top: clamp(1rem, 2.5vh, 2.5rem);
+            left: clamp(1rem, 2.5vw, 2.5rem);
             z-index: 10;
             line-height: 1.6;
             text-align: center;
-            padding: 1.5rem;
+            padding: clamp(0.4rem, 1.8vh, 1.8rem);
         }
 
         .site-name .name {
             font-family: 'Helvetica Neue', 'Arial', sans-serif;
-            font-size: 1rem;
+            font-size: clamp(0.75rem, 1.5vmin, 1.5rem);
             font-weight: 300;
-            letter-spacing: 3px;
+            letter-spacing: clamp(2px, 0.4vmin, 4px);
             text-transform: uppercase;
             display: block;
             color: #5a5550;
@@ -53,19 +60,21 @@
 
         .site-name .yoga {
             font-family: 'Helvetica Neue', 'Arial', sans-serif;
-            font-size: 1rem;
+            font-size: clamp(0.75rem, 1.5vmin, 1.5rem);
             font-weight: 300;
-            letter-spacing: 3px;
+            letter-spacing: clamp(2px, 0.4vmin, 4px);
             text-transform: uppercase;
             display: block;
-            margin-top: 0.25rem;
+            margin-top: 0.3rem;
             color: #5a5550;
         }
 
         .sun-circle {
             position: relative;
-            width: 95vmin;
-            height: 95vmin;
+            width: 96vmin;
+            height: 96vmin;
+            max-width: 96vh;
+            max-height: 96vh;
             background: radial-gradient(circle,
                 rgba(255, 195, 75, 0.65) 0%,
                 rgba(255, 180, 60, 0.55) 25%,
@@ -83,14 +92,14 @@
 
         .home-link {
             font-family: 'Helvetica Neue', 'Arial', sans-serif;
-            font-size: 0.7rem;
+            font-size: clamp(0.8rem, 1.1vmin, 1.1rem);
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
             text-transform: uppercase;
             color: #9d8b7a;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(0.6rem, 1.3vmin, 1.3rem);
             display: block;
         }
 
@@ -102,12 +111,17 @@
             position: absolute;
             z-index: 15;
             text-align: center;
-            padding: 2rem;
-            max-width: 70vmin;
+            padding: clamp(1.5rem, 3vmin, 4rem);
+            max-width: 85vmin;
+            max-height: 85vmin;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.6s ease;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .content-section#contactSection {
@@ -115,27 +129,27 @@
         }
 
         .content-section#locationSection {
-            max-width: 65vmin;
-            padding-top: 0.2rem;
-            padding-bottom: 3rem;
+            max-width: 80vmin;
+            padding-top: clamp(1rem, 2vmin, 2rem);
+            padding-bottom: clamp(2rem, 4vmin, 4rem);
             position: relative;
         }
 
         .content-section#aboutSection {
-            max-width: 80vmin;
+            max-width: 85vmin;
         }
 
         .content-section#locationSection .home-link {
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
         }
 
         .content-section#locationSection .section-title {
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
         }
 
         .scroll-container {
             overflow-y: auto;
-            max-height: 50vh;
+            max-height: min(55vh, 50vmin);
             position: relative;
             padding-bottom: 0.5rem;
         }
@@ -159,7 +173,6 @@
             background: rgba(157, 139, 122, 0.6);
         }
 
-        /* Firefox scrollbar styling */
         .scroll-container {
             scrollbar-width: thin;
             scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
@@ -172,14 +185,14 @@
 
         .welcome-text {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: clamp(2.5rem, 5vmin, 5rem);
         }
 
         .welcome-text h1 {
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 3.5vmin, 3.5rem);
             color: #6b5d4f;
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
             line-height: 1.6;
             margin-bottom: 0.5rem;
         }
@@ -187,15 +200,17 @@
         .nav-links {
             display: flex;
             flex-direction: row;
-            gap: 2rem;
+            gap: clamp(2.5rem, 5vmin, 5rem);
             align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .nav-link {
             text-decoration: none;
             color: #6b5d4f;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            font-size: clamp(1.2rem, 1.8vmin, 1.8rem);
+            letter-spacing: clamp(1.2px, 0.25vmin, 2.5px);
             transition: all 0.3s ease;
             font-weight: 400;
             cursor: pointer;
@@ -206,53 +221,33 @@
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: clamp(1.6rem, 2.6vmin, 2.6rem);
             color: #6b5d4f;
             font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 0.8rem;
+            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
+            margin-bottom: clamp(0.8rem, 1.5vmin, 1.5rem);
         }
 
         .about-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
-            max-height: 60vh;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
-        }
-
-        .about-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .about-content::-webkit-scrollbar-track {
-            background: rgba(157, 139, 122, 0.15);
-            border-radius: 10px;
-        }
-
-        .about-content::-webkit-scrollbar-thumb {
-            background: rgba(157, 139, 122, 0.4);
-            border-radius: 10px;
-            transition: background 0.3s ease;
-        }
-
-        .about-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(157, 139, 122, 0.6);
+            gap: clamp(1rem, 2vmin, 2rem);
+            max-height: none;
+            overflow: visible;
         }
 
         .about-image {
             width: 100%;
-            max-width: 470px;
-            height: 260px;
+            max-width: min(550px, 52vmin);
+            height: auto;
+            aspect-ratio: 470 / 260;
             display: flex;
             flex-direction: row;
-            gap: 1rem;
+            gap: clamp(0.6rem, 1.2vmin, 1.2rem);
             justify-content: center;
             align-items: center;
-            border-radius: 20px;
+            border-radius: clamp(12px, 2.2vmin, 22px);
             flex-shrink: 0;
         }
 
@@ -265,57 +260,118 @@
             object-position: center center;
         }
 
+        .clickable-image {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .clickable-image:hover {
+            opacity: 0.85;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            color: #f9f3ea;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: opacity 0.3s ease;
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+        }
+
+        .modal-close:hover {
+            opacity: 0.7;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
         .about-text {
             color: #6b5d4f;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            letter-spacing: 0.5px;
+            font-size: clamp(0.65rem, 1.5vmin, 1.3rem);
+            line-height: 1.65;
+            letter-spacing: 0.4px;
             width: 100%;
-            max-width: 600px;
+            max-width: min(650px, 70vmin);
+            flex-shrink: 0;
         }
 
         .calendar-container {
             width: 100%;
-            max-width: 300px;
-            margin-top: 0.3rem;
+            max-width: min(400px, 45vmin);
+            margin-top: clamp(0.4rem, 0.6vmin, 0.6rem);
         }
 
         .calendar-header {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 0.6rem;
-            font-size: 1rem;
+            margin-bottom: clamp(0.6rem, 1vmin, 1rem);
+            font-size: clamp(1.1rem, 1.5vmin, 1.5rem);
             color: #6b5d4f;
             font-weight: 400;
-            letter-spacing: 2px;
+            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
         }
 
         .calendar-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: clamp(0.5rem, 0.7vmin, 0.7rem);
         }
 
         .calendar-day-header {
             text-align: center;
             color: #9d8b7a;
-            font-size: 0.65rem;
+            font-size: clamp(1rem, 1.2vmin, 1.3rem);
             font-weight: 600;
-            letter-spacing: 0.8px;
+            letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
             text-transform: uppercase;
-            padding: 0.3rem 0 0.2rem 0;
+            padding: clamp(0.3rem, 0.5vmin, 0.5rem) 0 clamp(0.25rem, 0.35vmin, 0.35rem) 0;
             border-bottom: 1px solid rgba(157, 139, 122, 0.3);
         }
 
         .calendar-date {
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
+            border-radius: clamp(6px, 0.9vmin, 9px);
             min-height: auto;
-            padding: 0.5rem;
+            padding: clamp(0.6rem, 0.8vmin, 0.8rem);
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
+            gap: clamp(0.3rem, 0.5vmin, 0.5rem);
             transition: all 0.3s ease;
         }
 
@@ -339,31 +395,31 @@
 
         .date-number {
             color: #6b5d4f;
-            font-size: 0.65rem;
+            font-size: clamp(0.8rem, 1vmin, 1rem);
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin-bottom: clamp(0.2rem, 0.3vmin, 0.3rem);
         }
 
         .class-info {
-            font-size: 0.65rem;
+            font-size: clamp(1.2rem, 1.2vmin, 1.4rem);
             color: #6b5d4f;
-            line-height: 1.4;
-            letter-spacing: 0.2px;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
         }
 
         .class-time {
             font-weight: 600;
             color: #9d8b7a;
-            font-size: 0.68rem;
+            font-size: clamp(1rem, 1.2vmin, 1.1rem);
         }
 
         .class-location {
-            margin-top: 0.1rem;
+            margin-top: clamp(0.12rem, 0.15vmin, 0.15rem);
         }
 
         .class-link {
-            margin-top: 0.25rem;
-            font-size: 0.62rem;
+            margin-top: clamp(0.3rem, 0.4vmin, 0.4rem);
+            font-size: clamp(1rem, 1.2vmin, 1.1rem);
             color: #4a5a68;
             text-decoration: underline;
             cursor: pointer;
@@ -374,29 +430,30 @@
         }
 
         .class-separator {
-            margin: 0.3rem 0;
+            margin: clamp(0.35rem, 0.5vmin, 0.5rem) 0;
             border-top: 1px solid rgba(107, 93, 79, 0.2);
         }
 
         .contact-content {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: clamp(2rem, 3vmin, 3rem);
             align-items: center;
+            justify-content: center;
             width: 100%;
         }
 
         .contact-item {
             color: #6b5d4f;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
+            font-size: clamp(1.2rem, 1.6vmin, 1.6rem);
+            letter-spacing: 0.6px;
             line-height: 1.8;
         }
 
         .contact-label {
             font-weight: 300;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
+            letter-spacing: clamp(1px, 0.2vmin, 2px);
+            font-size: clamp(1.1rem, 1.4vmin, 1.4rem);
             margin-bottom: 0.5rem;
             color: #9d8b7a;
         }
@@ -414,8 +471,8 @@
         }
 
         .scroll-indicator svg {
-            width: 24px;
-            height: 24px;
+            width: clamp(24px, 3vmin, 30px);
+            height: clamp(24px, 3vmin, 30px);
             stroke: #9d8b7a;
             stroke-width: 2;
             fill: none;
@@ -427,7 +484,7 @@
         }
 
         .scroll-up-indicator {
-            margin-bottom: 0.5rem;
+            margin-bottom: clamp(0.3rem, 0.5vmin, 0.5rem);
         }
 
         .scroll-up-indicator:hover {
@@ -435,7 +492,7 @@
         }
 
         .scroll-down-indicator {
-            margin-top: 0.8rem;
+            margin-top: clamp(0.5rem, 0.8vmin, 0.8rem);
         }
 
         .scroll-down-indicator:not(.hidden) {
@@ -464,251 +521,297 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .site-name {
-                top: 1.5rem;
-                left: 1.5rem;
-                padding: 0.5rem;
-            }
+	 @media(max-width: 1024px) {
 
-            .site-name .name {
-                font-size: 0.65rem;
-            }
+		 .about-text {
+			 font-size: clamp(0.65rem, 2vmin, 1.3rem);
+		 }
+	 }
 
-            .site-name .yoga {
-                font-size: 0.65rem;
-            }
+     @media (max-width: 768px) {
+         .sun-circle {
+             width: 94vmin;
+             height: 94vmin;
+         }
 
-            .welcome-text h1 {
-                font-size: 1.4rem;
-            }
+         .content-section {
+             padding: clamp(1.2rem, 2.5vmin, 3rem);
+         }
 
-            .nav-link {
-                font-size: 0.75rem;
-            }
+         .content-section#locationSection {
+             max-width: 82vmin;
+         }
 
-            .nav-links {
-                gap: 1.2rem;
-            }
+         .content-section#aboutSection {
+             max-width: 82vmin;
+         }
 
-            .section-title {
-                font-size: 1.3rem;
-                margin-bottom: 0.8rem;
-            }
+         .about-image {
+             max-width: min(500px, 48vmin);
+         }
+     }
 
-            .content-section {
-                padding: 1rem;
-                max-width: 80vmin;
-            }
+     @media (max-width: 480px) {
+         .sun-circle {
+             width: 92vmin;
+             height: 92vmin;
+         }
 
-            .content-section#aboutSection {
-                max-width: 85vmin;
-            }
+         .content-section {
+             padding: clamp(0.6rem, 1.5vmin, 1.8rem);
+         }
 
-            .content-section#locationSection {
-                max-width: 80vmin;
-            }
+         .content-section#locationSection {
+             max-width: 84vmin;
+             padding-top: clamp(0.6rem, 1.2vmin, 1.5rem);
+             padding-bottom: clamp(1.5rem, 3vmin, 3rem);
+         }
 
-			.section-title {
-				margin-bottom: 0.4rem;
-			}
+         .content-section#aboutSection {
+             max-width: 84vmin;
+             padding: clamp(0.4rem, 1vmin, 1.2rem);
+         }
 
-            .about-image {
-                width: 100%;
-                max-width: 350px;
-                height: auto;
-                aspect-ratio: 470 / 260;
-            }
+         .about-image {
+             max-width: min(260px, 32vmin);
+         }
 
-            .about-text {
-                width: 100%;
-                max-width: 450px;
-                font-size: 0.8rem;
-                line-height: 1.5;
-            }
+         .about-text {
+             font-size: clamp(0.62rem, 0.82vmin, 0.82rem);
+             line-height: 1.45;
+         }
 
-            .calendar-container {
-                max-width: 100%;
-                width: 100%;
-            }
+         .about-content {
+             gap: clamp(0.4rem, 0.8vmin, 0.8rem);
+         }
 
-            .scroll-container {
-                max-height: 45vh;
-            }
+         .section-title {
+             font-size: clamp(1.1rem, 1.7vmin, 1.7rem);
+             margin-bottom: clamp(0.35rem, 0.7vmin, 0.7rem);
+         }
 
-            .calendar-day-header {
-                font-size: 0.6rem;
-            }
+         .home-link {
+             font-size: clamp(0.6rem, 0.85vmin, 0.85rem);
+             margin-bottom: clamp(0.3rem, 0.6vmin, 0.6rem);
+         }
 
-            .class-time {
-                font-size: 0.63rem;
-            }
+         .welcome-text h1 {
+             font-size: clamp(1.5rem, 3vmin, 3rem);
+         }
 
-            .class-info {
-                font-size: 0.6rem;
-            }
+         .nav-link {
+             font-size: clamp(1rem, 1.5vmin, 1.5rem);
+         }
 
-            .scroll-up-indicator {
-                margin-bottom: 0.4rem;
-            }
+         .calendar-container {
+             max-width: min(340px, 40vmin);
+         }
 
-            .scroll-down-indicator {
-                margin-top: 0.6rem;
-            }
+         .scroll-container {
+             max-height: min(48vh, 44vmin);
+         }
 
-            .scroll-up-indicator svg,
-            .scroll-down-indicator svg {
-                width: 22px;
-                height: 22px;
-            }
-        }
+         .calendar-day-header {
+             font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
+             padding: clamp(0.25rem, 0.4vmin, 0.4rem) 0 clamp(0.2rem, 0.3vmin, 0.3rem) 0;
+         }
 
-        @media (max-width: 480px) {
-            .site-name {
-                top: 1rem;
-                left: 1rem;
-                padding: 0.3rem;
-            }
+         .calendar-date {
+             padding: clamp(0.5rem, 0.65vmin, 0.65rem);
+             gap: clamp(0.25rem, 0.4vmin, 0.4rem);
+         }
 
-            .site-name .name {
-                font-size: 0.55rem;
-                letter-spacing: 2px;
-            }
+         .class-info {
+             font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
+         }
 
-            .site-name .yoga {
-                font-size: 0.55rem;
-                letter-spacing: 2px;
-            }
+         .class-time {
+             font-size: clamp(0.75rem, 0.95vmin, 0.95rem);
+         }
 
-            .welcome-text h1 {
-                font-size: 1.1rem;
-            }
+         .class-link {
+             font-size: clamp(0.68rem, 0.85vmin, 0.85rem);
+             margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
+         }
 
-            .welcome-text {
-                margin-bottom: 1.8rem;
-            }
+         .class-separator {
+             margin: clamp(0.25rem, 0.35vmin, 0.35rem) 0;
+         }
+     }
 
-            .nav-links {
-                gap: 0.8rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .nav-link {
-                font-size: 0.7rem;
-            }
-
-            .section-title {
-                font-size: 1.1rem;
-                margin-bottom: 0.6rem;
-            }
-
-			.about-content {
-				gap: 0.5rem;
-			}
-
-            .about-image {
-                width: 100%;
-                max-width: 150px;
-                height: auto;
-                gap: 0.5rem;
-				margin-bottom: 0.2rem;
-
-            }
-
-            .about-text {
-                width: 100%;
-                font-size: 0.7rem;
-                line-height: 1;
-                padding: 0 0.5rem;
-				max-height: 85vmin;
-            }
-
-            .calendar-container {
-                max-width: 100%;
-				width: 100%;
-				max-height: 75%;
-            }
-
-            .calendar-date {
-                min-height: auto;
-                padding: 0.4rem;
-            }
-
-            .date-number {
-                font-size: 0.65rem;
-            }
-
-            .class-info {
-                font-size: 0.58rem;
-            }
-
-            .class-time {
-                font-size: 0.6rem;
-            }
-
-            .calendar-day-header {
-                font-size: 0.58rem;
-            }
-
-            .calendar-header {
-                font-size: 0.9rem;
-            }
-
-            .content-section {
-                padding: 0.8rem;
-                max-width: 88vmin;
-            }
-
-            .content-section#locationSection {
-				transform: translateY(-6%);
-                max-width: 88vmin;
-                padding: 0.8rem 0.5rem;
-		        max-height: 80%;
-                padding-bottom: 2.5rem;
+        /* Extra small devices like iPhone SE */
+        @media (max-width: 375px) {
+            .sun-circle {
+                width: 90vmin;
+                height: 90vmin;
             }
 
             .content-section#aboutSection {
-				transform: translateY(-8%);
-                max-width: 88vmin;
+                padding: clamp(0.3rem, 0.8vmin, 1rem);
+            }
+
+            .about-image {
+                max-width: min(230px, 30vmin);
+            }
+
+            .about-text {
+                font-size: clamp(0.58rem, 0.75vmin, 0.75rem);
+
+                line-height: 1.4;
+            }
+
+            .about-content {
+                gap: clamp(0.3rem, 0.65vmin, 0.65rem);
+            }
+
+            .section-title {
+                font-size: clamp(1rem, 1.5vmin, 1.5rem);
+                margin-bottom: clamp(0.3rem, 0.6vmin, 0.6rem);
             }
 
             .home-link {
-                font-size: 0.65rem;
-                margin-bottom: 0.4rem;
+                font-size: clamp(0.55rem, 0.75vmin, 0.75rem);
+                margin-bottom: clamp(0.25rem, 0.5vmin, 0.5rem);
+            }
+
+            .calendar-container {
+                max-width: min(310px, 38vmin);
             }
 
             .scroll-container {
-                max-height: calc(100vmin * 0.5);
-                margin-bottom: 0.2rem;
+                max-height: min(46vh, 42vmin);
             }
 
-            .scroll-container::-webkit-scrollbar {
-                width: 5px;
+            .calendar-grid {
+                gap: clamp(0.4rem, 0.6vmin, 0.6rem);
             }
 
-            .scroll-up-indicator {
-                margin-bottom: 0.25rem;
+            .calendar-day-header {
+                font-size: clamp(0.65rem, 0.85vmin, 0.85rem);
             }
 
-            .scroll-down-indicator {
-                margin-top: 0.3rem;
+            .calendar-date {
+                padding: clamp(0.45rem, 0.6vmin, 0.6rem);
             }
 
-            .scroll-up-indicator svg,
-            .scroll-down-indicator svg {
-                width: 20px;
-                height: 20px;
+            .class-info {
+                font-size: clamp(0.68rem, 0.85vmin, 0.85rem);
             }
 
-            .contact-item {
-                font-size: 0.85rem;
-            }
-
-            .contact-label {
-                font-size: 0.75rem;
+            .class-time {
+                font-size: clamp(0.72rem, 0.9vmin, 0.9rem);
             }
         }
+
+     /* @media (max-height: 700px) {
+        .sun-circle {
+        width: 92vmin;
+        height: 92vmin;
+        }
+
+        .welcome-text h1 {
+        font-size: clamp(1.5rem, 3vh, 3rem);
+        }
+
+        .nav-link {
+        font-size: clamp(1rem, 1.5vh, 1.5rem);
+        }
+
+        .section-title {
+        font-size: clamp(1.4rem, 2.2vh, 2.2rem);
+        margin-bottom: clamp(0.6rem, 1.2vh, 1.2rem);
+        }
+
+        .about-text {
+        font-size: clamp(0.85rem, 1.15vh, 1.15rem);
+        line-height: 1.6;
+        }
+
+        .about-image {
+        max-width: min(480px, 46vmin);
+        }
+
+        .content-section {
+        padding: clamp(1.2rem, 2.5vh, 2.5rem);
+        }
+
+        .about-content {
+        gap: clamp(0.8rem, 1.5vh, 1.5rem);
+        }
+
+        .scroll-container {
+        max-height: min(50vh, 48vmin);
+        }
+        }
+
+        @media (max-height: 600px) {
+        .sun-circle {
+        width: 90vmin;
+        height: 90vmin;
+        }
+
+        .welcome-text h1 {
+        font-size: clamp(1.3rem, 2.8vh, 2.5rem);
+        }
+
+        .nav-link {
+        font-size: clamp(0.9rem, 1.3vh, 1.3rem);
+        }
+
+        .section-title {
+        font-size: clamp(1.2rem, 2vh, 2rem);
+        margin-bottom: clamp(0.5rem, 1vh, 1rem);
+        }
+
+        .about-text {
+        font-size: clamp(0.75rem, 1vh, 1rem);
+        line-height: 1.55;
+        }
+
+        .about-image {
+        max-width: min(420px, 42vmin);
+        }
+
+        .content-section {
+        padding: clamp(1rem, 2vh, 2rem);
+        }
+
+        .about-content {
+        gap: clamp(0.6rem, 1.2vh, 1.2rem);
+        }
+
+        .scroll-container {
+        max-height: min(48vh, 45vmin);
+        }
+        }
+
+        @media (max-height: 500px) {
+        .sun-circle {
+        width: 88vmin;
+        height: 88vmin;
+        }
+
+        .about-text {
+        font-size: clamp(0.7rem, 0.95vh, 0.95rem);
+        line-height: 1.5;
+        }
+
+        .about-image {
+        max-width: min(360px, 38vmin);
+        }
+
+        .section-title {
+        font-size: clamp(1.1rem, 1.8vh, 1.8rem);
+        }
+
+        .about-content {
+        gap: clamp(0.5rem, 1vh, 1rem);
+        }
+
+        .scroll-container {
+        max-height: min(45vh, 42vmin);
+        } */
+     /* } */
     </style>
 </head>
 <body>
@@ -727,20 +830,20 @@
                 </div>
 
                 <nav class="nav-links">
-                    <a class="nav-link" data-section="about">About Me</a>
-                    <a class="nav-link" data-section="location">Where to Find Me</a>
-                    <a class="nav-link" data-section="contact">Contact Me</a>
+                    <a class="nav-link" data-section="about">About</a>
+                    <a class="nav-link" data-section="location">Practice</a>
+                    <a class="nav-link" data-section="contact">Connect</a>
                 </nav>
             </div>
 
             <!-- About Section -->
             <div class="content-section" id="aboutSection">
                 <div class="home-link" id="homeLink1">[HOME]</div>
-                <h2 class="section-title">About Me</h2>
+                <h2 class="section-title">About</h2>
                 <div class="about-content">
                     <div class="about-image">
-                      <img src="about.JPG">
-                      <img src="headshot.JPG">
+                      <img src="about.JPG" class="clickable-image" alt="About Natasha">
+                      <img src="headshot.JPG" class="clickable-image" alt="Natasha headshot">
                     </div>
                     <p class="about-text">
 Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, and it has completely changed my life. Quickly after realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center in Portland, my practice is rooted in loving devotion. My intention is to share the practice to bring us closer together, and into real knowing of our deep interconnectedness. If you want to join hands in community, I'd love to share in practice with you.
@@ -748,10 +851,18 @@ Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, an
                 </div>
             </div>
 
+            <!-- Image Modal -->
+            <div class="image-modal" id="imageModal">
+                <div class="modal-content">
+                    <div class="modal-close" id="modalClose">← Back</div>
+                    <img src="" alt="" id="modalImage">
+                </div>
+            </div>
+
             <!-- Location Section -->
             <div class="content-section" id="locationSection">
                 <div class="home-link" id="homeLink2">[HOME]</div>
-                <h2 class="section-title">Where to Find Me</h2>
+                <h2 class="section-title">Practice</h2>
                 <div class="calendar-container">
                     <div class="scroll-indicator scroll-up-indicator hidden" id="scrollUpIndicator">
                         <svg viewBox="0 0 24 24">
@@ -775,7 +886,7 @@ Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, an
             <!-- Contact Section -->
             <div class="content-section" id="contactSection">
                 <div class="home-link" id="homeLink3">[HOME]</div>
-                <h2 class="section-title">Contact Me</h2>
+                <h2 class="section-title">Connect</h2>
                 <div class="contact-content">
                     <div class="contact-label">
                         natashagoodwinyoga@gmail.com
@@ -1035,6 +1146,36 @@ Hi — I'm Natasha. I found the practice of yoga in Portland, Oregon in 2021, an
 
      // Initial check
      updateScrollIndicators();
+
+     // Image modal functionality
+     const imageModal = document.getElementById('imageModal');
+     const modalImage = document.getElementById('modalImage');
+     const modalClose = document.getElementById('modalClose');
+     const clickableImages = document.querySelectorAll('.clickable-image');
+
+     clickableImages.forEach(img => {
+         img.addEventListener('click', () => {
+             modalImage.src = img.src;
+             modalImage.alt = img.alt;
+             imageModal.classList.add('active');
+         });
+     });
+
+     modalClose.addEventListener('click', () => {
+         imageModal.classList.remove('active');
+     });
+
+     imageModal.addEventListener('click', (e) => {
+         if (e.target === imageModal) {
+             imageModal.classList.remove('active');
+         }
+     });
+
+     document.addEventListener('keydown', (e) => {
+         if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+             imageModal.classList.remove('active');
+         }
+     });
     </script>
 </body>
 </html>
