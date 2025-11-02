@@ -281,6 +281,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            touch-action: pan-y;
         }
 
         .image-modal.active {
@@ -437,7 +438,7 @@
          font-size: clamp(0.95rem, 1.1vmin, 1.05rem);
          color: #4a5a68;
          text-decoration: none;
-         cursor: default;
+         cursor: pointer;
 	 }
 	 
 
@@ -448,7 +449,7 @@
      }
 
 	 #contact-text {
-		 color: #6b5d4f;
+		 color: rgba(25, 7, 0, 0.4);
          font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
          letter-spacing: 0.5px;
          line-height: 1.8;
@@ -478,6 +479,49 @@
             font-size: clamp(1.8rem, 2.6vmin, 2.6rem);
             color: #9d8b7a;
             line-height: 1.4;
+			cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: clamp(0.5rem, 0.8vmin, 0.8rem);
+            justify-content: center;
+        }
+
+        .copy-icon {
+            width: clamp(1.2rem, 1.8vmin, 1.8rem);
+            height: clamp(1.2rem, 1.8vmin, 1.8rem);
+            stroke: #9d8b7a;
+            stroke-width: 2;
+            fill: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-label:hover .copy-icon {
+            stroke: #6b5d4f;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(107, 93, 79, 0.95);
+            color: #f9f3ea;
+            padding: clamp(0.75rem, 1.2vmin, 1.2rem) clamp(1.5rem, 2.5vmin, 2.5rem);
+            border-radius: clamp(8px, 1.2vmin, 12px);
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-size: clamp(0.9rem, 1.2vmin, 1.2rem);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         .scroll-indicator {
@@ -857,13 +901,16 @@
             <div class="content-section" id="contactSection">
                 <div class="contact-content">
 					<span id = "contact-text"> For all yoga-related inquires, email me at: </span>
-                    <div class="contact-label">
-                        natashagoodwinyoga@gmail.com
+                    <div class="contact-label" id ="contact-email" onclick ="copyEmail(event)">
+                        <span>natashagoodwinyoga@gmail.com</span>                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">Email copied</div>
 
     <script>
      // Weekly schedule template
@@ -938,6 +985,14 @@
          nextSunday.setDate(date.getDate() + 7);
          
          return nextSunday.getMonth() !== month;
+     }
+
+     function showToast() {
+         const toast = document.getElementById('toast');
+         toast.classList.add('show');
+         setTimeout(() => {
+             toast.classList.remove('show');
+         }, 2000);
      }
 
      function generateCalendar() {
@@ -1033,6 +1088,16 @@
 					 const helperDiv = document.createElement('span');
 					 helperDiv.className = 'class-helper';
                      helperDiv.textContent = classInfo.helper;
+                     
+                     // Add click handler to copy email for "Email to sign up"
+                     if (classInfo.helper === "Email to sign up") {
+                         helperDiv.style.cursor = 'pointer';
+                         helperDiv.addEventListener('click', function() {
+                             navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
+                             showToast();
+                         });
+                     }
+                     
                      classInfoDiv.appendChild(helperDiv);
                  }
                  
@@ -1160,11 +1225,16 @@
      // Initial check
      updateScrollIndicators();
 
-     // Image modal functionality
+     // Image modal functionality with swipe support
      const imageModal = document.getElementById('imageModal');
      const modalImage = document.getElementById('modalImage');
      const modalClose = document.getElementById('modalClose');
      const clickableImages = document.querySelectorAll('.clickable-image');
+
+     let touchStartX = 0;
+     let touchStartY = 0;
+     let touchEndX = 0;
+     let touchEndY = 0;
 
      clickableImages.forEach(img => {
          img.addEventListener('click', () => {
@@ -1184,11 +1254,47 @@
          }
      });
 
+     // Touch event handlers for swipe gesture
+     imageModal.addEventListener('touchstart', (e) => {
+         touchStartX = e.changedTouches[0].screenX;
+         touchStartY = e.changedTouches[0].screenY;
+     });
+
+     imageModal.addEventListener('touchend', (e) => {
+         touchEndX = e.changedTouches[0].screenX;
+         touchEndY = e.changedTouches[0].screenY;
+         handleSwipe();
+     });
+
+     function handleSwipe() {
+         const deltaX = touchEndX - touchStartX;
+         const deltaY = touchEndY - touchStartY;
+         
+         // Check if horizontal swipe is more dominant than vertical
+         if (Math.abs(deltaX) > Math.abs(deltaY)) {
+             // Right swipe (back gesture)
+             if (deltaX > 50) {
+                 imageModal.classList.remove('active');
+             }
+         }
+     }
+
      document.addEventListener('keydown', (e) => {
          if (e.key === 'Escape' && imageModal.classList.contains('active')) {
              imageModal.classList.remove('active');
          }
      });
+
+	 function copyEmail(event) {
+		 var target = event.target;
+         var emailText = target.textContent || target.innerText;
+         
+         // Remove any whitespace and get just the email
+         emailText = emailText.trim();
+         
+		 navigator.clipboard.writeText(emailText);
+         showToast();
+	 }
     </script>
 </body>
 </html>
