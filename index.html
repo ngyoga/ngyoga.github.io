@@ -46,6 +46,12 @@
             line-height: 1.6;
             text-align: center;
             padding: clamp(0.4rem, 1.8vh, 1.8rem);
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-name:hover {
+            opacity: 0.7;
         }
 
         .site-name .name {
@@ -88,99 +94,12 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
+            transition: opacity 0.3s ease;
         }
 
-        .home-link {
-            font-family: 'Helvetica Neue', 'Arial', sans-serif;
-            font-size: clamp(0.8rem, 1.1vmin, 1.1rem);
-            font-weight: 300;
-            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
-            text-transform: uppercase;
-            color: #9d8b7a;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: clamp(0.3rem, 1vmin, 1rem);
-            display: block;
-        }
-
-        .home-link:hover {
-            color: #6b5d4f;
-        }
-
-        .content-section {
-            position: absolute;
-            z-index: 15;
-            text-align: center;
-            padding: clamp(1.5rem, 3vmin, 4rem);
-            max-width: 85vmin;
-            max-height: 85vmin;
+        .sun-circle.hidden-by-modal {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.6s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .content-section#contactSection {
-            max-width: 85vmin;
-        }
-
-        .content-section#locationSection {
-            max-width: 80vmin;
-            padding-top: clamp(1rem, 2vmin, 2rem);
-            padding-bottom: clamp(2rem, 4vmin, 4rem);
-            position: relative;
-        }
-
-        .content-section#aboutSection {
-            max-width: 85vmin;
-        }
-
-        .content-section#locationSection .home-link {
-            margin-bottom: 0.5rem;
-        }
-
-        .content-section#locationSection .section-title {
-            margin-bottom: 0.5rem;
-        }
-
-        .scroll-container {
-            overflow-y: auto;
-            max-height: min(55vh, 50vmin);
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .scroll-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .scroll-container::-webkit-scrollbar-track {
-            background: rgba(157, 139, 122, 0.15);
-            border-radius: 10px;
-        }
-
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(157, 139, 122, 0.4);
-            border-radius: 10px;
-            transition: background 0.3s ease;
-        }
-
-        .scroll-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(157, 139, 122, 0.6);
-        }
-
-        .scroll-container {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
-        }
-
-        .content-section.active {
-            opacity: 1;
-            pointer-events: auto;
         }
 
         .welcome-text {
@@ -221,161 +140,187 @@
             transform: translateY(-2px);
         }
 
-        .section-title {
-            font-size: clamp(1.6rem, 2.6vmin, 2.6rem);
-            color: #6b5d4f;
-            font-weight: 300;
-            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
-            margin-bottom: clamp(0.8rem, 1.5vmin, 1.5rem);
-        }
-
-        .about-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: clamp(1rem, 2vmin, 2rem);
-            max-height: none;
-            overflow: visible;
-        }
-
-        .about-image {
-            width: 100%;
-            max-width: min(550px, 52vmin);
-            height: auto;
-            aspect-ratio: 470 / 260;
-            display: flex;
-            flex-direction: row;
-            gap: clamp(0.6rem, 1.2vmin, 1.2rem);
-            justify-content: center;
-            align-items: center;
-            border-radius: clamp(12px, 2.2vmin, 22px);
-            flex-shrink: 0;
-        }
-
-        img {
-            border-radius: inherit;
-            display: block;
-            flex: 1;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-        }
-
-        .clickable-image {
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .clickable-image:hover {
-            opacity: 0.85;
-        }
-
-        .image-modal {
-            display: none;
+        .page-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            background: radial-gradient(circle at center,
+                rgba(255, 195, 75, 0.75) 0%,
+                rgba(255, 180, 60, 0.65) 15%,
+                rgba(250, 170, 55, 0.5) 30%,
+                rgba(245, 224, 200, 0.9) 50%,
+                rgba(249, 243, 234, 0.95) 70%,
+                rgba(245, 232, 216, 1) 100%);
+            z-index: 1001;
+            display: flex;
             justify-content: center;
             align-items: center;
-            touch-action: pan-y;
+            padding: 2rem;
+            padding-top: 5rem;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+            pointer-events: none;
         }
 
-        .image-modal.active {
-            display: flex;
+        .page-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
+            pointer-events: auto;
         }
 
-        .modal-content {
+        .page-modal-content {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            width: 100%;
+            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
         }
 
-        .modal-close {
-            position: absolute;
-            top: -6vh;
-            left: 0;
-            color: #f9f3ea;
-            font-size: 1rem;
+        .page-modal.active .page-modal-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .page-modal-close {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #6b5d4f;
+            font-size: clamp(1rem, 1.3vmin, 1.3rem);
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
+            text-transform: uppercase;
             cursor: pointer;
             padding: 10px 20px;
-            transition: opacity 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.2s;
             font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            z-index: 10;
         }
 
-        .modal-close:hover {
+        .page-modal.active .page-modal-close {
+            opacity: 1;
+        }
+
+        .page-modal-close:hover {
+            opacity: 0.7 !important;
+        }
+
+        /* About Modal Styles */
+        .about-modal-images {
+            display: flex;
+            width: 100%;
+            max-width: 700px;
+            gap: clamp(0.8rem, 2vmin, 2rem);
+            justify-content: center;
+            align-items: center;
+            margin-bottom: clamp(1.5rem, 3vmin, 3rem);
+            flex-direction: row;
+        }
+
+        .about-modal-images img {
+            width: 48%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            object-position: center;
+            border-radius: clamp(8px, 1.5vmin, 15px);
+        }
+
+        .about-modal-text {
+            color: #6b5d4f;
+            font-size: clamp(1.1rem, 2.2vmin, 1.8rem);
+            line-height: 1.75;
+            letter-spacing: 0.5px;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .about-modal-text a {
+            color: #9d8b7a;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .about-modal-text a:hover {
             opacity: 0.7;
         }
 
-        #modalImage {
-            max-width: 100%;
-            max-height: 85vh;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .about-text {
-            color: #6b5d4f;
-            font-size: clamp(0.65rem, 1.5vmin, 1.3rem);
-            line-height: 1.65;
-            letter-spacing: 0.4px;
+        /* Location Modal Styles */
+        .location-modal-content-inner {
             width: 100%;
-            max-width: min(650px, 70vmin);
-            flex-shrink: 0;
+            max-width: 900px;
         }
 
-        .calendar-container {
-            width: 100%;
-            max-width: min(600px, 65vmin);
-            margin-top: clamp(0.2rem, 0.4vmin, 0.4rem);
+        .scroll-container {
+            overflow-y: auto;
+            max-height: 70vh;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
-        .calendar-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: clamp(0.6rem, 1vmin, 1rem);
-            font-size: clamp(1.1rem, 1.5vmin, 1.5rem);
-            color: #6b5d4f;
-            font-weight: 400;
-            letter-spacing: clamp(1.5px, 0.3vmin, 3px);
+        .scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(157, 139, 122, 0.15);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(157, 139, 122, 0.4);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(157, 139, 122, 0.6);
+        }
+
+        .scroll-container {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(157, 139, 122, 0.4) rgba(157, 139, 122, 0.15);
         }
 
         .calendar-grid {
             display: flex;
             flex-direction: column;
-            gap: clamp(0.5rem, 0.7vmin, 0.7rem);
+            gap: clamp(0.6rem, 1vmin, 1rem);
         }
 
-     .calendar-day-header {
-         text-align: center;
-         color: #031602;
-		 opacity: 0.5;
-         font-size: clamp(1.05rem, 1.3vmin, 1.4rem);
-         font-weight: 600;
-         letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
-         text-transform: uppercase;
-         padding: clamp(0.3rem, 0.5vmin, 0.5rem) 0 clamp(0.25rem, 0.35vmin, 0.35rem) 0;
-         border-bottom: 1px solid rgba(157, 139, 122, 0.3);
-     }
+        .calendar-day-header {
+            text-align: center;
+            color: #031602;
+            opacity: 0.5;
+            font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
+            font-weight: 600;
+            letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
+            text-transform: uppercase;
+            padding: clamp(0.4rem, 0.6vmin, 0.6rem) 0 clamp(0.3rem, 0.4vmin, 0.4rem) 0;
+            border-bottom: 1px solid rgba(157, 139, 122, 0.3);
+        }
 
         .calendar-date {
             background: rgba(255, 255, 255, 0.3);
-            border-radius: clamp(6px, 0.9vmin, 9px);
+            border-radius: clamp(8px, 1.2vmin, 12px);
             min-height: auto;
-            padding: clamp(0.6rem, 0.8vmin, 0.8rem);
+            padding: clamp(0.8rem, 1.2vmin, 1.2rem);
             display: flex;
             flex-direction: column;
-            gap: clamp(0.3rem, 0.5vmin, 0.5rem);
+            gap: clamp(0.4rem, 0.6vmin, 0.6rem);
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .calendar-date:hover {
@@ -390,21 +335,8 @@
             background: rgba(157, 139, 122, 0.25);
         }
 
-        .calendar-date.empty {
-            background: transparent;
-            min-height: 0;
-            padding: 0;
-        }
-
-        .date-number {
-            color: #6b5d4f;
-            font-size: clamp(0.8rem, 1vmin, 1rem);
-            font-weight: 600;
-            margin-bottom: clamp(0.2rem, 0.3vmin, 0.3rem);
-        }
-
         .class-info {
-            font-size: clamp(1.2rem, 1.2vmin, 1.4rem);
+            font-size: clamp(1.1rem, 1.5vmin, 1.5rem);
             color: #6b5d4f;
             line-height: 1.5;
             letter-spacing: 0.3px;
@@ -413,16 +345,25 @@
         .class-time {
             font-weight: 600;
             color: #9d8b7a;
-            font-size: clamp(1rem, 1.2vmin, 1.1rem);
+            font-size: clamp(1.05rem, 1.4vmin, 1.3rem);
         }
 
         .class-location {
-            margin-top: clamp(0.12rem, 0.15vmin, 0.15rem);
+            margin-top: clamp(0.15rem, 0.2vmin, 0.2rem);
+        }
+
+        .class-location.clickable {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .class-location.clickable:hover {
+            opacity: 0.7;
         }
 
         .class-link {
-            margin-top: clamp(0.3rem, 0.4vmin, 0.4rem);
-            font-size: clamp(0.95rem, 1.1vmin, 1.05rem);
+            margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
+            font-size: clamp(1rem, 1.3vmin, 1.2rem);
             color: #4a5a68;
             text-decoration: underline;
             cursor: pointer;
@@ -432,71 +373,101 @@
             color: #5f7588;
         }
 
-	 
-	 .class-helper {
-		 margin-top: clamp(0.3rem, 0.4vmin, 0.4rem);
-         font-size: clamp(0.95rem, 1.1vmin, 1.05rem);
-         color: #4a5a68;
-         text-decoration: none;
-         cursor: pointer;
-	 }
-	 
+        .class-helper {
+            margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
+            font-size: clamp(1rem, 1.3vmin, 1.2rem);
+            color: #4a5a68;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
+        .class-separator {
+            margin: clamp(0.4rem, 0.6vmin, 0.6rem) 0;
+            border-top: 1px solid rgba(107, 93, 79, 0.2);
+        }
 
-     .class-separator {
-         margin: clamp(0.35rem, 0.5vmin, 0.5rem) 0;
-         border-top: 1px solid rgba(107, 93, 79, 0.2);
-     }
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
 
-	 #contact-text {
-		 color: rgba(25, 7, 0, 0.4);
-         font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
-         letter-spacing: 0.5px;
-         line-height: 1.8;
-         font-weight: 300;
-         margin-bottom: clamp(1rem, 1.5vmin, 1.5rem);
-	 }
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
 
-     .contact-content {
-         display: flex;
-         flex-direction: column;
-         gap: clamp(1.5rem, 3vmin, 2.5rem);
-         align-items: center;
-         justify-content: center;
-         width: 85%;
-     }
+        .scroll-indicator svg {
+            width: clamp(28px, 3.5vmin, 35px);
+            height: clamp(28px, 3.5vmin, 35px);
+            stroke: #9d8b7a;
+            stroke-width: 2;
+            fill: none;
+        }
 
-        .contact-item {
-            color: #6b5d4f;
-            font-size: clamp(1.2rem, 1.6vmin, 1.6rem);
-            letter-spacing: 0.6px;
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-up-indicator {
+            margin-bottom: clamp(0.5rem, 0.8vmin, 0.8rem);
+        }
+
+        .scroll-down-indicator {
+            margin-top: clamp(0.6rem, 1vmin, 1rem);
+        }
+
+        .scroll-down-indicator:not(.hidden) {
+            animation: bounceDown 2s ease-in-out infinite;
+        }
+
+        .scroll-down-indicator:hover,
+        .scroll-up-indicator:hover {
+            animation: none;
+        }
+
+        @keyframes bounceDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Contact Modal Styles */
+        .contact-modal-content-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(2rem, 4vmin, 4rem);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .contact-text {
+            color: rgba(25, 7, 0, 0.4);
+            font-size: clamp(1.3rem, 2.2vmin, 2rem);
+            letter-spacing: 0.5px;
             line-height: 1.8;
+            font-weight: 300;
+            text-align: center;
         }
 
         .contact-label {
             font-weight: 500;
             letter-spacing: clamp(0.8px, 0.18vmin, 1.8px);
-            font-size: clamp(1.8rem, 2.6vmin, 2.6rem);
+            font-size: clamp(1.8rem, 3vmin, 3rem);
             color: #9d8b7a;
             line-height: 1.4;
-			cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: clamp(0.5rem, 0.8vmin, 0.8rem);
-            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
         }
 
-        .copy-icon {
-            width: clamp(1.2rem, 1.8vmin, 1.8rem);
-            height: clamp(1.2rem, 1.8vmin, 1.8rem);
-            stroke: #9d8b7a;
-            stroke-width: 2;
-            fill: none;
-            transition: all 0.3s ease;
-        }
-
-        .contact-label:hover .copy-icon {
-            stroke: #6b5d4f;
+        .contact-label:hover {
+            opacity: 0.7;
         }
 
         .toast {
@@ -524,360 +495,125 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        .scroll-indicator {
-            display: flex;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-indicator:hover {
-            opacity: 1;
-        }
-
-        .scroll-indicator svg {
-            width: clamp(24px, 3vmin, 30px);
-            height: clamp(24px, 3vmin, 30px);
-            stroke: #9d8b7a;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .scroll-up-indicator {
-            margin-bottom: clamp(0.3rem, 0.5vmin, 0.5rem);
-        }
-
-        .scroll-up-indicator:hover {
-            animation: none;
-        }
-
-        .scroll-down-indicator {
-            margin-top: clamp(0.5rem, 0.8vmin, 0.8rem);
-        }
-
-        .scroll-down-indicator:not(.hidden) {
-            animation: bounceDown 2s ease-in-out infinite;
-        }
-
-        .scroll-down-indicator:hover {
-            animation: none;
-        }
-
-        @keyframes bounceUp {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(8px);
-            }
-        }
-
-        @keyframes bounceDown {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-	 @media(max-width: 1024px) {
-
-		 .about-text {
-			 font-size: clamp(0.65rem, 2vmin, 1.3rem);
-		 }
-
-		 .home-link {
-             font-size: clamp(1.2rem, 1.5vmin, 1.5rem);
-         }
-	 }
-
-     @media (max-width: 768px) {
-         .sun-circle {
-             width: 94vmin;
-             height: 94vmin;
-         }
-		 
-		 .home-link {
-			 font-size: clamp(1rem, 1.3vmin, 1.3rem);
-
-         }
-
-         .content-section {
-             padding: clamp(1.2rem, 2.5vmin, 3rem);
-         }
-
-         .content-section#locationSection {
-             max-width: 82vmin;
-         }
-
-         .content-section#aboutSection {
-             max-width: 82vmin;
-         }
-
-         .about-image {
-             max-width: min(500px, 48vmin);
-         }
-     }
-
-     @media (max-width: 480px) {
-         .sun-circle {
-             width: 92vmin;
-             height: 92vmin;
-         }
-
-         .content-section {
-             padding: clamp(0.6rem, 1.5vmin, 1.8rem);
-         }
-
-         .content-section#locationSection {
-             max-width: 84vmin;
-             padding-top: clamp(0.6rem, 1.2vmin, 1.5rem);
-             padding-bottom: clamp(1.5rem, 3vmin, 3rem);
-         }
-
-         .content-section#aboutSection {
-             max-width: 84vmin;
-             padding: clamp(0.4rem, 1vmin, 1.2rem);
-         }
-
-         .content-section#contactSection {
-             max-width: 84vmin;
-         }
-
-         #contact-text {
-             font-size: clamp(0.75rem, 1vmin, 1rem);
-             margin-bottom: clamp(0.5rem, 0.8vmin, 0.8rem);
-         }
-
-         .contact-label {
-             font-size: clamp(1.1rem, 1.6vmin, 1.6rem);
-         }
-
-         .contact-content {
-             width: 90%;
-             gap: clamp(0.8rem, 1.5vmin, 1.5rem);
-         }
-
-         .about-image {
-             max-width: min(260px, 32vmin);
-         }
-
-         .about-text {
-             font-size: clamp(0.62rem, 0.82vmin, 0.82rem);
-             line-height: 1.45;
-         }
-
-         .about-content {
-             gap: clamp(0.4rem, 0.8vmin, 0.8rem);
-         }
-
-         .section-title {
-             font-size: clamp(1.1rem, 1.7vmin, 1.7rem);
-             margin-bottom: clamp(0.15rem, 0.3vmin, 0.3rem);
-         }
-
-         .home-link {
-             font-size: clamp(0.6rem, 0.85vmin, 0.85rem);
-             margin-bottom: clamp(0.3rem, 0.6vmin, 0.6rem);
-         }
-
-         .welcome-text h1 {
-             font-size: clamp(1.5rem, 3vmin, 3rem);
-         }
-
-         .nav-link {
-             font-size: clamp(1rem, 1.5vmin, 1.5rem);
-         }
-
-         .calendar-container {
-			 margin-top: 0;
-             max-width: min(420px, 50vmin);
-         }
-
-         .scroll-container {
-             max-height: min(48vh, 44vmin);
-         }
-
-         .calendar-day-header {
-             font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
-             padding: clamp(0.25rem, 0.4vmin, 0.4rem) 0 clamp(0.2rem, 0.3vmin, 0.3rem) 0;
-         }
-
-         .calendar-date {
-             padding: clamp(0.5rem, 0.65vmin, 0.65rem);
-             gap: clamp(0.25rem, 0.4vmin, 0.4rem);
-         }
-
-         .class-info {
-             font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
-         }
-
-         .class-time {
-             font-size: clamp(0.75rem, 0.95vmin, 0.95rem);
-         }
-
-         .class-link {
-             font-size: clamp(0.65rem, 0.82vmin, 0.82rem);
-             margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
-         }
-
-         .class-helper {
-             font-size: clamp(0.65rem, 0.82vmin, 0.82rem);
-             margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
-         }
-
-         .class-separator {
-             margin: clamp(0.25rem, 0.35vmin, 0.35rem) 0;
-         }
-     }
-
-        /* Extra small devices like iPhone SE */
-        @media (max-width: 375px) {
-            .sun-circle {
-                width: 90vmin;
-                height: 90vmin;
+        @media (max-width: 768px) {
+            .page-modal {
+                padding: 1.5rem;
+                padding-top: 4.5rem;
             }
 
-            .content-section#aboutSection {
-                padding: clamp(0.3rem, 0.8vmin, 1rem);
+            .page-modal-close {
+                top: 1.5rem;
+                font-size: clamp(0.95rem, 1.2vmin, 1.2rem);
             }
 
-            .content-section#contactSection {
-                max-width: 86vmin;
-            }
-
-            #contact-text {
-                font-size: clamp(0.7rem, 0.9vmin, 0.9rem);
-                margin-bottom: clamp(0.4rem, 0.6vmin, 0.6rem);
-            }
-
-            .contact-label {
-                font-size: clamp(1rem, 1.4vmin, 1.4rem);
-            }
-
-            .contact-content {
-                width: 92%;
-                gap: clamp(0.6rem, 1.2vmin, 1.2rem);
-            }
-
-            .about-image {
-                max-width: min(230px, 30vmin);
-            }
-
-            .about-text {
-                font-size: clamp(0.58rem, 0.75vmin, 0.75rem);
-
-                line-height: 1.4;
-            }
-
-            .about-content {
-                gap: clamp(0.3rem, 0.65vmin, 0.65rem);
-            }
-
-            .section-title {
-                font-size: clamp(1rem, 1.5vmin, 1.5rem);
-                margin-bottom: clamp(0.15rem, 0.3vmin, 0.3rem);
-            }
-
-            .home-link {
-                font-size: clamp(0.55rem, 0.75vmin, 0.75rem);
-                margin-bottom: clamp(0.25rem, 0.5vmin, 0.5rem);
-            }
-
-            .calendar-container {
-				margin-top: 0;
-                max-width: min(340px, 48vmin);
+            .about-modal-text {
+                font-size: clamp(1rem, 2.5vmin, 1.6rem);
             }
 
             .scroll-container {
-                max-height: min(46vh, 42vmin);
+                max-height: 65vh;
             }
 
-            .calendar-grid {
-                gap: clamp(0.4rem, 0.6vmin, 0.6rem);
+            .contact-text {
+                font-size: clamp(1.1rem, 2vmin, 1.8rem);
+            }
+
+            .contact-label {
+                font-size: clamp(1.5rem, 2.6vmin, 2.6rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-modal {
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .page-modal-close {
+                top: 1rem;
+                font-size: clamp(0.85rem, 1.1vmin, 1.1rem);
+                padding: 8px 16px;
+            }
+
+            .about-modal-text {
+                font-size: clamp(0.95rem, 2.8vmin, 1.5rem);
+                line-height: 1.65;
             }
 
             .calendar-day-header {
-                font-size: clamp(0.65rem, 0.85vmin, 0.85rem);
-            }
-
-            .calendar-date {
-                padding: clamp(0.45rem, 0.6vmin, 0.6rem);
+                font-size: clamp(0.9rem, 1.3vmin, 1.3rem);
             }
 
             .class-info {
-                font-size: clamp(0.68rem, 0.85vmin, 0.85rem);
+                font-size: clamp(0.85rem, 1.2vmin, 1.2rem);
             }
 
             .class-time {
-                font-size: clamp(0.72rem, 0.9vmin, 0.9rem);
+                font-size: clamp(0.9rem, 1.25vmin, 1.15rem);
             }
 
-            .class-link {
-                font-size: clamp(0.62rem, 0.78vmin, 0.78rem);
-                margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
-            }
-
+            .class-link,
             .class-helper {
-                font-size: clamp(0.62rem, 0.78vmin, 0.78rem);
-                margin-top: clamp(0.2rem, 0.3vmin, 0.3rem);
+                font-size: clamp(0.8rem, 1.1vmin, 1rem);
+            }
+
+            .scroll-container {
+                max-height: 60vh;
+            }
+
+            .contact-text {
+                font-size: clamp(0.95rem, 1.8vmin, 1.5rem);
+            }
+
+            .contact-label {
+                font-size: clamp(1.3rem, 2.2vmin, 2.2rem);
+            }
+
+            .contact-modal-content-inner {
+                gap: clamp(1.5rem, 3vmin, 3rem);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="site-name home-link">
+        <div class="site-name" id="siteName">
             <span class="name">Natasha Goodwin</span>
             <span class="yoga">Yoga</span>
         </div>
         
-        <div class="sun-circle">
-            <div class="home-link" id= "top-home-link">[HOME]</div>
+        <div class="sun-circle" id="sunCircle">
             <!-- Welcome Section -->
-            <div class="content-section active" id="welcomeSection">
-                <div class="welcome-text">
-                    <h1>I'm so glad<br>you're here</h1>
-                </div>
-
-                <nav class="nav-links">
-                    <a class="nav-link" data-section="about">About</a>
-                    <a class="nav-link" data-section="location">Practice</a>
-                    <a class="nav-link" data-section="contact">Connect</a>
-                </nav>
+            <div class="welcome-text">
+                <h1>I'm so glad<br>you're here</h1>
             </div>
 
-            <!-- About Section -->
-            <div class="content-section" id="aboutSection">
-                <div class="about-content">
-                    <div class="about-image">
-                      <img src="about.JPG" class="clickable-image" alt="About Natasha">
-                      <img src="headshot.JPG" class="clickable-image" alt="Natasha headshot">
-                    </div>
-                    <p class="about-text">
-						Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center, my practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together. If you want to join hands in community, I'd love to practice with you.
-					</p>
-                </div>
-            </div>
+            <nav class="nav-links">
+                <a class="nav-link" data-section="about">About</a>
+                <a class="nav-link" data-section="location">Practice</a>
+                <a class="nav-link" data-section="contact">Connect</a>
+            </nav>
+        </div>
 
-            <!-- Image Modal -->
-            <div class="image-modal" id="imageModal">
-                <div class="modal-content">
-                    <div class="modal-close" id="modalClose">← Back</div>
-                    <img src="" alt="" id="modalImage">
+        <!-- About Modal -->
+        <div class="page-modal" id="aboutModal">
+            <div class="page-modal-close" id="aboutModalClose">[HOME]</div>
+            <div class="page-modal-content">
+                <div class="about-modal-images">
+                    <img src="about.JPG" alt="About Natasha">
+                    <img src="headshot.JPG" alt="Natasha headshot">
                 </div>
+                <p class="about-modal-text">
+                    Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the <a href="https://thebymc.com" target="_blank">Bhakti Yoga Movement Center</a>, my practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together. If you want to join hands in community, I'd love to practice with you.
+                </p>
             </div>
+        </div>
 
-            <!-- Location Section -->
-            <div class="content-section" id="locationSection">
-                <div class="calendar-container">
+        <!-- Location Modal -->
+        <div class="page-modal" id="locationModal">
+            <div class="page-modal-close" id="locationModalClose">[HOME]</div>
+            <div class="page-modal-content">
+                <div class="location-modal-content-inner">
                     <div class="scroll-indicator scroll-up-indicator hidden" id="scrollUpIndicator">
                         <svg viewBox="0 0 24 24">
                             <polyline points="18 15 12 9 6 15"></polyline>
@@ -887,7 +623,6 @@
                         <div class="calendar-grid" id="calendarGrid">
                             <!-- Calendar will be generated by JavaScript -->
                         </div>
-						
                     </div>
                     <div class="scroll-indicator scroll-down-indicator" id="scrollDownIndicator">
                         <svg viewBox="0 0 24 24">
@@ -896,13 +631,16 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Contact Section -->
-            <div class="content-section" id="contactSection">
-                <div class="contact-content">
-					<span id = "contact-text"> For all yoga-related inquires, email me at: </span>
-                    <div class="contact-label" id ="contact-email" onclick ="copyEmail(event)">
-                        <span>natashagoodwinyoga@gmail.com</span>                    
+        <!-- Contact Modal -->
+        <div class="page-modal" id="contactModal">
+            <div class="page-modal-close" id="contactModalClose">[HOME]</div>
+            <div class="page-modal-content">
+                <div class="contact-modal-content-inner">
+                    <span class="contact-text">For all yoga-related inquires, email me at:</span>
+                    <div class="contact-label" id="contactEmail">
+                        <span>natashagoodwinyoga@gmail.com</span>
                     </div>
                 </div>
             </div>
@@ -919,22 +657,23 @@
               {
                   time: '10:00am-11:00am',
                   location: 'CCBA, Lebanon NH',
-				  helper: "Drop in"
-
+                  locationLink: 'https://joinccba.org',
+                  helper: 'Drop in'
               },
               {
                   time: '4:00pm-5:00pm',
                   location: 'Studio 34, Claremont NH',
                   excludeLastSunday: true,
-				  helper: "Drop in"
-
+                  locationLink: 'https://www.studio34nh.com',
+                  helper: 'Drop in'
               }
          ],
          1: [ // Monday
               {
                   time: '9:30am-10:30am',
                   location: 'Meriden Library, Meriden NH',
-				  helper: "Drop in"
+                  locationLink: 'https://plainfieldlibraries.org/meriden',
+                  helper: 'Drop in'
               },
               {
                   time: '5:30pm-6:30pm',
@@ -963,7 +702,8 @@
               {
                   time: '9:30am-10:30am',
                   location: 'Cornish Town Offices, Cornish NH',
-				  helper: "Drop in",
+                  locationLink: 'https://maps.app.goo.gl/tGu5V9Wiqy4nqysa6',
+                  helper: 'Drop in',
                   excludeDate: new Date('2025-11-28')
               }
          ],
@@ -971,7 +711,7 @@
               {
                   time: '10:00am-11:00am',
                   location: 'Stronghouse Spa, Quechee VT',
-				  helper: "Email to sign up"
+                  helper: 'Email to sign up'
               }
          ]
      };
@@ -1067,30 +807,39 @@
                  timeDiv.textContent = classInfo.time;
                  classInfoDiv.appendChild(timeDiv);
 
-				 if (classInfo.link) {
-                     const locationDiv = document.createElement('div');
-                     locationDiv.className = 'class-location';
-                     locationDiv.textContent = classInfo.location;
-                     classInfoDiv.appendChild(locationDiv);
-                     
+                 const locationDiv = document.createElement('div');
+                 locationDiv.className = 'class-location';
+                 locationDiv.textContent = classInfo.location;
+                 
+                 // Make location clickable if locationLink exists
+                 if (classInfo.locationLink) {
+                     locationDiv.classList.add('clickable');
+                     locationDiv.style.cursor = 'pointer';
+                     locationDiv.addEventListener('click', function() {
+                         window.open(classInfo.locationLink, '_blank');
+                     });
+                 }
+                 
+                 classInfoDiv.appendChild(locationDiv);
+                 
+                 // Add signup link if it exists
+                 if (classInfo.link) {
                      const signupLink = document.createElement('a');
                      signupLink.className = 'class-link';
                      signupLink.href = classInfo.link;
                      signupLink.target = '_blank';
                      signupLink.textContent = 'Sign up';
                      classInfoDiv.appendChild(signupLink);
-                 } else {
-                     const locationDiv = document.createElement('div');
-                     locationDiv.className = 'class-location';
-                     locationDiv.textContent = classInfo.location;
-                     classInfoDiv.appendChild(locationDiv);
-					 
-					 const helperDiv = document.createElement('span');
-					 helperDiv.className = 'class-helper';
+                 }
+                 
+                 // Add helper text if it exists
+                 if (classInfo.helper) {
+                     const helperDiv = document.createElement('span');
+                     helperDiv.className = 'class-helper';
                      helperDiv.textContent = classInfo.helper;
                      
                      // Add click handler to copy email for "Email to sign up"
-                     if (classInfo.helper === "Email to sign up") {
+                     if (classInfo.helper === 'Email to sign up') {
                          helperDiv.style.cursor = 'pointer';
                          helperDiv.addEventListener('click', function() {
                              navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
@@ -1108,68 +857,85 @@
          }
      }
 
-     // Navigation
-     const sections = {
-         welcome: document.getElementById('welcomeSection'),
-         about: document.getElementById('aboutSection'),
-         location: document.getElementById('locationSection'),
-         contact: document.getElementById('contactSection')
-     };
-
-     const homeLinks = document.querySelectorAll('.home-link');
+     // Modal management
+     const sunCircle = document.getElementById('sunCircle');
+     const siteName = document.getElementById('siteName');
      const navLinks = document.querySelectorAll('.nav-link');
 
-	 const topHomeLink = document.getElementById('top-home-link')
-	 topHomeLink.style.opacity = '0';
+     const aboutModal = document.getElementById('aboutModal');
+     const locationModal = document.getElementById('locationModal');
+     const contactModal = document.getElementById('contactModal');
 
+     const aboutModalClose = document.getElementById('aboutModalClose');
+     const locationModalClose = document.getElementById('locationModalClose');
+     const contactModalClose = document.getElementById('contactModalClose');
 
-	 let currentSection = 'welcome';
-     function showSection(sectionName) {
-         sections[currentSection].classList.remove('active');
-         currentSection = sectionName;
-
-         setTimeout(() => {
-             sections[currentSection].classList.add('active');
-             
-			 if (currentSection == 'welcome') {
-				 topHomeLink.style.opacity = '0';
-				 topHomeLink.style.pointerEvents = 'none';
-			 } else {
-				 topHomeLink.style.opacity = '1';
-				 topHomeLink.style.pointerEvents = 'auto';
-			 }
-             // Reset scroll position when showing location section
-             if (currentSection === 'location') {
-                 scrollContainer.scrollTop = 0;
-                 updateScrollIndicators();
-             }
-         }, 300);
-
-     }
-	 
-     navLinks.forEach(link => {
-         link.addEventListener('click', (e) => {
-             e.preventDefault();
-             const section = link.getAttribute('data-section');
-             showSection(section);
-         });
-     });
-
-     homeLinks.forEach(homeLink => {
-         homeLink.addEventListener('click', () => {
-             showSection('welcome');
-         });
-     });
-
-     // Generate calendar on page load
-     generateCalendar();
-
-     // Scroll indicator functionality
      const scrollContainer = document.getElementById('scrollContainer');
      const scrollUpIndicator = document.getElementById('scrollUpIndicator');
      const scrollDownIndicator = document.getElementById('scrollDownIndicator');
 
-     // Check if content is scrollable and show/hide indicators
+     function openModal(modal) {
+         sunCircle.classList.add('hidden-by-modal');
+         modal.classList.add('active');
+         
+         if (modal === locationModal) {
+             scrollContainer.scrollTop = 0;
+             updateScrollIndicators();
+         }
+     }
+
+     function closeModal(modal) {
+         modal.classList.remove('active');
+         sunCircle.classList.remove('hidden-by-modal');
+     }
+
+     // Navigation
+     navLinks.forEach(link => {
+         link.addEventListener('click', (e) => {
+             e.preventDefault();
+             const section = link.getAttribute('data-section');
+             
+             if (section === 'about') {
+                 openModal(aboutModal);
+             } else if (section === 'location') {
+                 openModal(locationModal);
+             } else if (section === 'contact') {
+                 openModal(contactModal);
+             }
+         });
+     });
+
+     // Close buttons
+     aboutModalClose.addEventListener('click', () => closeModal(aboutModal));
+     locationModalClose.addEventListener('click', () => closeModal(locationModal));
+     contactModalClose.addEventListener('click', () => closeModal(contactModal));
+
+     // Site name click to go home
+     siteName.addEventListener('click', () => {
+         closeModal(aboutModal);
+         closeModal(locationModal);
+         closeModal(contactModal);
+     });
+
+     // Click outside to close
+     [aboutModal, locationModal, contactModal].forEach(modal => {
+         modal.addEventListener('click', (e) => {
+             if (e.target === modal) {
+                 closeModal(modal);
+             }
+         });
+     });
+
+     // Escape key to close
+     document.addEventListener('keydown', (e) => {
+         if (e.key === 'Escape') {
+             if (aboutModal.classList.contains('active')) closeModal(aboutModal);
+             if (locationModal.classList.contains('active')) closeModal(locationModal);
+             if (contactModal.classList.contains('active')) closeModal(contactModal);
+         }
+     });
+
+     // Scroll indicators
      function updateScrollIndicators() {
          if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
              const isAtTop = scrollContainer.scrollTop <= 10;
@@ -1192,7 +958,6 @@
          }
      }
 
-     // Scroll down by 60% of visible container height when clicking down arrow
      scrollDownIndicator.addEventListener('click', () => {
          const scrollAmount = scrollContainer.clientHeight * 0.6;
          scrollContainer.scrollBy({
@@ -1201,7 +966,6 @@
          });
      });
 
-     // Scroll up by 60% of visible container height when clicking up arrow
      scrollUpIndicator.addEventListener('click', () => {
          const scrollAmount = scrollContainer.clientHeight * 0.6;
          scrollContainer.scrollBy({
@@ -1210,91 +974,17 @@
          });
      });
 
-     // Update indicators visibility on scroll
      scrollContainer.addEventListener('scroll', updateScrollIndicators);
 
-     // Update indicators when location section becomes active
-     const locationSection = document.getElementById('locationSection');
-     const observer = new MutationObserver(() => {
-         if (locationSection.classList.contains('active')) {
-             setTimeout(updateScrollIndicators, 100);
-         }
-     });
-     observer.observe(locationSection, { attributes: true, attributeFilter: ['class'] });
-
-     // Initial check
-     updateScrollIndicators();
-
-     // Image modal functionality with swipe support
-     const imageModal = document.getElementById('imageModal');
-     const modalImage = document.getElementById('modalImage');
-     const modalClose = document.getElementById('modalClose');
-     const clickableImages = document.querySelectorAll('.clickable-image');
-
-     let touchStartX = 0;
-     let touchStartY = 0;
-     let touchEndX = 0;
-     let touchEndY = 0;
-
-     clickableImages.forEach(img => {
-         img.addEventListener('click', () => {
-             modalImage.src = img.src;
-             modalImage.alt = img.alt;
-             imageModal.classList.add('active');
-         });
-     });
-
-     modalClose.addEventListener('click', () => {
-         imageModal.classList.remove('active');
-     });
-
-     imageModal.addEventListener('click', (e) => {
-         if (e.target === imageModal) {
-             imageModal.classList.remove('active');
-         }
-     });
-
-     // Touch event handlers for swipe gesture
-     imageModal.addEventListener('touchstart', (e) => {
-         touchStartX = e.changedTouches[0].screenX;
-         touchStartY = e.changedTouches[0].screenY;
-     });
-
-     imageModal.addEventListener('touchend', (e) => {
-         touchEndX = e.changedTouches[0].screenX;
-         touchEndY = e.changedTouches[0].screenY;
-         handleSwipe();
-     });
-
-     function handleSwipe() {
-         const deltaX = touchEndX - touchStartX;
-         const deltaY = touchEndY - touchStartY;
-         
-         // Check if horizontal swipe is more dominant than vertical
-         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-             // Right swipe (back gesture)
-             if (deltaX > 50) {
-                 imageModal.classList.remove('active');
-             }
-         }
-     }
-
-     document.addEventListener('keydown', (e) => {
-         if (e.key === 'Escape' && imageModal.classList.contains('active')) {
-             imageModal.classList.remove('active');
-         }
-     });
-
-	 function copyEmail(event) {
-		 var target = event.target;
-         var emailText = target.textContent || target.innerText;
-         
-         // Remove any whitespace and get just the email
-         emailText = emailText.trim();
-         
-		 navigator.clipboard.writeText(emailText);
+     // Contact email copy
+     const contactEmail = document.getElementById('contactEmail');
+     contactEmail.addEventListener('click', () => {
+         navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
          showToast();
-	 }
+     });
+
+     // Generate calendar on load
+     generateCalendar();
     </script>
 </body>
 </html>
