@@ -235,6 +235,20 @@
             object-fit: cover;
             object-position: center;
             border-radius: clamp(8px, 1.5vmin, 15px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .about-modal-images img:hover {
+            opacity: 0.85;
+            transform: scale(1.03);
+        }
+
+        @media (hover: none) {
+            .about-modal-images img:active {
+                opacity: 0.85;
+                transform: scale(0.98);
+            }
         }
 
         .about-modal-text {
@@ -254,6 +268,59 @@
 
         .about-modal-text a:hover {
             opacity: 0.7;
+        }
+
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+            touch-action: pan-y;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: -6vh;
+            left: 0;
+            color: #f9f3ea;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: opacity 0.3s ease;
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+        }
+
+        .image-modal-close:hover {
+            opacity: 0.7;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
         }
 
         /* Location Modal Styles */
@@ -600,12 +667,20 @@
             <div class="page-modal-close" id="aboutModalClose">[HOME]</div>
             <div class="page-modal-content">
                 <div class="about-modal-images">
-                    <img src="about.JPG" alt="About Natasha">
-                    <img src="headshot.JPG" alt="Natasha headshot">
+                    <img src="about.JPG" alt="About Natasha" class="clickable-about-image">
+                    <img src="headshot.JPG" alt="Natasha headshot" class="clickable-about-image">
                 </div>
                 <p class="about-modal-text">
                     Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the <a href="https://thebymc.com" target="_blank">Bhakti Yoga Movement Center</a>, my practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together. If you want to join hands in community, I'd love to practice with you.
                 </p>
+            </div>
+        </div>
+
+        <!-- Image Modal -->
+        <div class="image-modal" id="imageModal">
+            <div class="image-modal-content">
+                <div class="image-modal-close" id="imageModalClose">← Back</div>
+                <img src="" alt="" id="modalImage">
             </div>
         </div>
 
@@ -651,340 +726,402 @@
     <div class="toast" id="toast">Email copied</div>
 
     <script>
-     // Weekly schedule template
-     const weeklySchedule = {
-         0: [ // Sunday
-              {
-                  time: '10:00am-11:00am',
-                  location: 'CCBA, Lebanon NH',
-                  locationLink: 'https://joinccba.org',
-                  helper: 'Drop in'
-              },
-              {
-                  time: '4:00pm-5:00pm',
-                  location: 'Studio 34, Claremont NH',
-                  excludeLastSunday: true,
-                  locationLink: 'https://www.studio34nh.com',
-                  helper: 'Drop in'
-              }
-         ],
-         1: [ // Monday
-              {
-                  time: '9:30am-10:30am',
-                  location: 'Meriden Library, Meriden NH',
-                  locationLink: 'https://plainfieldlibraries.org/meriden',
-                  helper: 'Drop in'
-              },
-              {
-                  time: '5:30pm-6:30pm',
-                  location: 'The Notch Climbing Gym, Lebanon NH',
-                  link: 'https://www.thenotchclimbing.com/classes'
-              }
-         ],
-         2: [ // Tuesday
-              {
-                  time: '4:30pm-5:30pm',
-                  location: 'Dartmouth College, Hanover NH',
-                  link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes',
-                  endDate: new Date('2025-11-18')
-              }
-         ],
-         3: [ // Wednesday
-              {
-                  time: '5:30pm-6:30pm',
-                  location: 'The Notch Climbing Gym, Lebanon NH',
-                  link: 'https://www.thenotchclimbing.com/classes',
-                  excludeDate: new Date('2025-11-26')
-              }
-         ],
-         4: [], // Thursday - no classes
-         5: [ // Friday
-              {
-                  time: '9:30am-10:30am',
-                  location: 'Cornish Town Offices, Cornish NH',
-                  locationLink: 'https://maps.app.goo.gl/tGu5V9Wiqy4nqysa6',
-                  helper: 'Drop in',
-                  excludeDate: new Date('2025-11-28')
-              }
-         ],
-         6: [ // Saturday
-              {
-                  time: '10:00am-11:00am',
-                  location: 'Stronghouse Spa, Quechee VT',
-                  helper: 'Email to sign up'
-              }
-         ]
-     };
+        // Weekly schedule template
+        const weeklySchedule = {
+            0: [ // Sunday
+                {
+                    time: '10:00am-11:00am',
+                    location: 'CCBA, Lebanon NH',
+                    locationLink: 'https://joinccba.org',
+                    helper: 'Drop in'
+                },
+                {
+                    time: '4:00pm-5:00pm',
+                    location: 'Studio 34, Claremont NH',
+                    excludeLastSunday: true,
+                    locationLink: 'https://www.studio34nh.com',
+                    helper: 'Drop in'
+                }
+            ],
+            1: [ // Monday
+                {
+                    time: '9:30am-10:30am',
+                    location: 'Meriden Library, Meriden NH',
+                    locationLink: 'https://plainfieldlibraries.org/meriden',
+                    helper: 'Drop in'
+                },
+                {
+                    time: '5:30pm-6:30pm',
+                    location: 'The Notch Climbing Gym, Lebanon NH',
+                    link: 'https://www.thenotchclimbing.com/classes'
+                }
+            ],
+            2: [ // Tuesday
+                {
+                    time: '4:30pm-5:30pm',
+                    location: 'Dartmouth College, Hanover NH',
+                    link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes',
+                    endDate: new Date('2025-11-18')
+                }
+            ],
+            3: [ // Wednesday
+                {
+                    time: '5:30pm-6:30pm',
+                    location: 'The Notch Climbing Gym, Lebanon NH',
+                    link: 'https://www.thenotchclimbing.com/classes',
+                    excludeDate: new Date('2025-11-26')
+                }
+            ],
+            4: [], // Thursday - no classes
+            5: [ // Friday
+                {
+                    time: '9:30am-10:30am',
+                    location: 'Cornish Town Offices, Cornish NH',
+                    locationLink: 'https://maps.app.goo.gl/tGu5V9Wiqy4nqysa6',
+                    helper: 'Drop in',
+                    excludeDate: new Date('2025-11-28')
+                }
+            ],
+            6: [ // Saturday
+                {
+                    time: '10:00am-11:00am',
+                    location: 'Stronghouse Spa, Quechee VT',
+                    helper: 'Email to sign up'
+                }
+            ]
+        };
 
-     function isLastSundayOfMonth(date) {
-         const day = date.getDay();
-         if (day !== 0) return false;
-         
-         const month = date.getMonth();
-         const nextSunday = new Date(date);
-         nextSunday.setDate(date.getDate() + 7);
-         
-         return nextSunday.getMonth() !== month;
-     }
+        function isLastSundayOfMonth(date) {
+            const day = date.getDay();
+            if (day !== 0) return false;
+            
+            const month = date.getMonth();
+            const nextSunday = new Date(date);
+            nextSunday.setDate(date.getDate() + 7);
+            
+            return nextSunday.getMonth() !== month;
+        }
 
-     function showToast() {
-         const toast = document.getElementById('toast');
-         toast.classList.add('show');
-         setTimeout(() => {
-             toast.classList.remove('show');
-         }, 2000);
-     }
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
 
-     function generateCalendar() {
-         const calendarGrid = document.getElementById('calendarGrid');
-         calendarGrid.innerHTML = '';
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
 
-         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-         
-         const today = new Date();
-         today.setHours(0, 0, 0, 0);
-         
-         // Generate 14 days starting from today
-         for (let i = 0; i < 14; i++) {
-             const currentDate = new Date(today);
-             currentDate.setDate(today.getDate() + i);
-             
-             const dayOfWeek = currentDate.getDay();
-             const classes = weeklySchedule[dayOfWeek];
-             
-             // Filter classes based on exclusion rules
-             const filteredClasses = classes.filter(classInfo => {
-                 if (classInfo.excludeLastSunday && dayOfWeek === 0) {
-                     return !isLastSundayOfMonth(currentDate);
-                 }
-                 if (classInfo.endDate) {
-                     const endDate = new Date(classInfo.endDate);
-                     endDate.setHours(0, 0, 0, 0);
-                     if (currentDate > endDate) {
-                         return false;
-                     }
-                 }
-                 if (classInfo.excludeDate) {
-                     const excludeDate = new Date(classInfo.excludeDate);
-                     excludeDate.setHours(0, 0, 0, 0);
-                     if (currentDate.getTime() === excludeDate.getTime()) {
-                         return false;
-                     }
-                 }
-                 return true;
-             });
-             
-             // Skip days with no classes after filtering
-             if (!filteredClasses || filteredClasses.length === 0) {
-                 continue;
-             }
-             
-             // Add day header with date
-             const header = document.createElement('div');
-             header.className = 'calendar-day-header';
-             const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
-             header.textContent = dateStr;
-             calendarGrid.appendChild(header);
-             
-             // Add day's schedule
-             const dateDiv = document.createElement('div');
-             dateDiv.className = 'calendar-date has-class';
-             
-             // Add classes
-             filteredClasses.forEach((classInfo, index) => {
-                 if (index > 0) {
-                     const separator = document.createElement('div');
-                     separator.className = 'class-separator';
-                     dateDiv.appendChild(separator);
-                 }
-                 
-                 const classInfoDiv = document.createElement('div');
-                 classInfoDiv.className = 'class-info';
-                 
-                 const timeDiv = document.createElement('div');
-                 timeDiv.className = 'class-time';
-                 timeDiv.textContent = classInfo.time;
-                 classInfoDiv.appendChild(timeDiv);
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Generate 14 days starting from today
+            for (let i = 0; i < 14; i++) {
+                const currentDate = new Date(today);
+                currentDate.setDate(today.getDate() + i);
+                
+                const dayOfWeek = currentDate.getDay();
+                const classes = weeklySchedule[dayOfWeek];
+                
+                // Filter classes based on exclusion rules
+                const filteredClasses = classes.filter(classInfo => {
+                    if (classInfo.excludeLastSunday && dayOfWeek === 0) {
+                        return !isLastSundayOfMonth(currentDate);
+                    }
+                    if (classInfo.endDate) {
+                        const endDate = new Date(classInfo.endDate);
+                        endDate.setHours(0, 0, 0, 0);
+                        if (currentDate > endDate) {
+                            return false;
+                        }
+                    }
+                    if (classInfo.excludeDate) {
+                        const excludeDate = new Date(classInfo.excludeDate);
+                        excludeDate.setHours(0, 0, 0, 0);
+                        if (currentDate.getTime() === excludeDate.getTime()) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+                
+                // Skip days with no classes after filtering
+                if (!filteredClasses || filteredClasses.length === 0) {
+                    continue;
+                }
+                
+                // Add day header with date
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
+                header.textContent = dateStr;
+                calendarGrid.appendChild(header);
+                
+                // Add day's schedule
+                const dateDiv = document.createElement('div');
+                dateDiv.className = 'calendar-date has-class';
+                
+                // Add classes
+                filteredClasses.forEach((classInfo, index) => {
+                    if (index > 0) {
+                        const separator = document.createElement('div');
+                        separator.className = 'class-separator';
+                        dateDiv.appendChild(separator);
+                    }
+                    
+                    const classInfoDiv = document.createElement('div');
+                    classInfoDiv.className = 'class-info';
+                    
+                    const timeDiv = document.createElement('div');
+                    timeDiv.className = 'class-time';
+                    timeDiv.textContent = classInfo.time;
+                    classInfoDiv.appendChild(timeDiv);
 
-                 const locationDiv = document.createElement('div');
-                 locationDiv.className = 'class-location';
-                 locationDiv.textContent = classInfo.location;
-                 
-                 // Make location clickable if locationLink exists
-                 if (classInfo.locationLink) {
-                     locationDiv.classList.add('clickable');
-                     locationDiv.style.cursor = 'pointer';
-                     locationDiv.addEventListener('click', function() {
-                         window.open(classInfo.locationLink, '_blank');
-                     });
-                 }
-                 
-                 classInfoDiv.appendChild(locationDiv);
-                 
-                 // Add signup link if it exists
-                 if (classInfo.link) {
-                     const signupLink = document.createElement('a');
-                     signupLink.className = 'class-link';
-                     signupLink.href = classInfo.link;
-                     signupLink.target = '_blank';
-                     signupLink.textContent = 'Sign up';
-                     classInfoDiv.appendChild(signupLink);
-                 }
-                 
-                 // Add helper text if it exists
-                 if (classInfo.helper) {
-                     const helperDiv = document.createElement('span');
-                     helperDiv.className = 'class-helper';
-                     helperDiv.textContent = classInfo.helper;
-                     
-                     // Add click handler to copy email for "Email to sign up"
-                     if (classInfo.helper === 'Email to sign up') {
-                         helperDiv.style.cursor = 'pointer';
-                         helperDiv.addEventListener('click', function() {
-                             navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
-                             showToast();
-                         });
-                     }
-                     
-                     classInfoDiv.appendChild(helperDiv);
-                 }
-                 
-                 dateDiv.appendChild(classInfoDiv);
-             });
-             
-             calendarGrid.appendChild(dateDiv);
-         }
-     }
+                    const locationDiv = document.createElement('div');
+                    locationDiv.className = 'class-location';
+                    locationDiv.textContent = classInfo.location;
+                    
+                    // Make location clickable if locationLink exists
+                    if (classInfo.locationLink) {
+                        locationDiv.classList.add('clickable');
+                        locationDiv.style.cursor = 'pointer';
+                        locationDiv.addEventListener('click', function() {
+                            window.open(classInfo.locationLink, '_blank');
+                        });
+                    }
+                    
+                    classInfoDiv.appendChild(locationDiv);
+                    
+                    // Add signup link if it exists
+                    if (classInfo.link) {
+                        const signupLink = document.createElement('a');
+                        signupLink.className = 'class-link';
+                        signupLink.href = classInfo.link;
+                        signupLink.target = '_blank';
+                        signupLink.textContent = 'Sign up';
+                        classInfoDiv.appendChild(signupLink);
+                    }
+                    
+                    // Add helper text if it exists
+                    if (classInfo.helper) {
+                        const helperDiv = document.createElement('span');
+                        helperDiv.className = 'class-helper';
+                        helperDiv.textContent = classInfo.helper;
+                        
+                        // Add click handler to copy email for "Email to sign up"
+                        if (classInfo.helper === 'Email to sign up') {
+                            helperDiv.style.cursor = 'pointer';
+                            helperDiv.addEventListener('click', function() {
+                                navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
+                                showToast();
+                            });
+                        }
+                        
+                        classInfoDiv.appendChild(helperDiv);
+                    }
+                    
+                    dateDiv.appendChild(classInfoDiv);
+                });
+                
+                calendarGrid.appendChild(dateDiv);
+            }
+        }
 
-     // Modal management
-     const sunCircle = document.getElementById('sunCircle');
-     const siteName = document.getElementById('siteName');
-     const navLinks = document.querySelectorAll('.nav-link');
+        // Modal management
+        const sunCircle = document.getElementById('sunCircle');
+        const siteName = document.getElementById('siteName');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-     const aboutModal = document.getElementById('aboutModal');
-     const locationModal = document.getElementById('locationModal');
-     const contactModal = document.getElementById('contactModal');
+        const aboutModal = document.getElementById('aboutModal');
+        const locationModal = document.getElementById('locationModal');
+        const contactModal = document.getElementById('contactModal');
 
-     const aboutModalClose = document.getElementById('aboutModalClose');
-     const locationModalClose = document.getElementById('locationModalClose');
-     const contactModalClose = document.getElementById('contactModalClose');
+        const aboutModalClose = document.getElementById('aboutModalClose');
+        const locationModalClose = document.getElementById('locationModalClose');
+        const contactModalClose = document.getElementById('contactModalClose');
 
-     const scrollContainer = document.getElementById('scrollContainer');
-     const scrollUpIndicator = document.getElementById('scrollUpIndicator');
-     const scrollDownIndicator = document.getElementById('scrollDownIndicator');
+        const scrollContainer = document.getElementById('scrollContainer');
+        const scrollUpIndicator = document.getElementById('scrollUpIndicator');
+        const scrollDownIndicator = document.getElementById('scrollDownIndicator');
 
-     function openModal(modal) {
-         sunCircle.classList.add('hidden-by-modal');
-         modal.classList.add('active');
-         
-         if (modal === locationModal) {
-             scrollContainer.scrollTop = 0;
-             updateScrollIndicators();
-         }
-     }
+        function openModal(modal) {
+            sunCircle.classList.add('hidden-by-modal');
+            modal.classList.add('active');
+            
+            if (modal === locationModal) {
+                scrollContainer.scrollTop = 0;
+                updateScrollIndicators();
+            }
+        }
 
-     function closeModal(modal) {
-         modal.classList.remove('active');
-         sunCircle.classList.remove('hidden-by-modal');
-     }
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            sunCircle.classList.remove('hidden-by-modal');
+        }
 
-     // Navigation
-     navLinks.forEach(link => {
-         link.addEventListener('click', (e) => {
-             e.preventDefault();
-             const section = link.getAttribute('data-section');
-             
-             if (section === 'about') {
-                 openModal(aboutModal);
-             } else if (section === 'location') {
-                 openModal(locationModal);
-             } else if (section === 'contact') {
-                 openModal(contactModal);
-             }
-         });
-     });
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                
+                if (section === 'about') {
+                    openModal(aboutModal);
+                } else if (section === 'location') {
+                    openModal(locationModal);
+                } else if (section === 'contact') {
+                    openModal(contactModal);
+                }
+            });
+        });
 
-     // Close buttons
-     aboutModalClose.addEventListener('click', () => closeModal(aboutModal));
-     locationModalClose.addEventListener('click', () => closeModal(locationModal));
-     contactModalClose.addEventListener('click', () => closeModal(contactModal));
+        // Close buttons
+        aboutModalClose.addEventListener('click', () => closeModal(aboutModal));
+        locationModalClose.addEventListener('click', () => closeModal(locationModal));
+        contactModalClose.addEventListener('click', () => closeModal(contactModal));
 
-     // Site name click to go home
-     siteName.addEventListener('click', () => {
-         closeModal(aboutModal);
-         closeModal(locationModal);
-         closeModal(contactModal);
-     });
+        // Site name click to go home
+        siteName.addEventListener('click', () => {
+            closeModal(aboutModal);
+            closeModal(locationModal);
+            closeModal(contactModal);
+        });
 
-     // Click outside to close
-     [aboutModal, locationModal, contactModal].forEach(modal => {
-         modal.addEventListener('click', (e) => {
-             if (e.target === modal) {
-                 closeModal(modal);
-             }
-         });
-     });
+        // Click outside to close
+        [aboutModal, locationModal, contactModal].forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal);
+                }
+            });
+        });
 
-     // Escape key to close
-     document.addEventListener('keydown', (e) => {
-         if (e.key === 'Escape') {
-             if (aboutModal.classList.contains('active')) closeModal(aboutModal);
-             if (locationModal.classList.contains('active')) closeModal(locationModal);
-             if (contactModal.classList.contains('active')) closeModal(contactModal);
-         }
-     });
+        // Escape key to close (removed - now handled with image modal)
 
-     // Scroll indicators
-     function updateScrollIndicators() {
-         if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
-             const isAtTop = scrollContainer.scrollTop <= 10;
-             const isAtBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10;
-             
-             if (isAtTop) {
-                 scrollUpIndicator.classList.add('hidden');
-             } else {
-                 scrollUpIndicator.classList.remove('hidden');
-             }
-             
-             if (isAtBottom) {
-                 scrollDownIndicator.classList.add('hidden');
-             } else {
-                 scrollDownIndicator.classList.remove('hidden');
-             }
-         } else {
-             scrollUpIndicator.classList.add('hidden');
-             scrollDownIndicator.classList.add('hidden');
-         }
-     }
+        // Scroll indicators
+        function updateScrollIndicators() {
+            if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
+                const isAtTop = scrollContainer.scrollTop <= 10;
+                const isAtBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10;
+                
+                if (isAtTop) {
+                    scrollUpIndicator.classList.add('hidden');
+                } else {
+                    scrollUpIndicator.classList.remove('hidden');
+                }
+                
+                if (isAtBottom) {
+                    scrollDownIndicator.classList.add('hidden');
+                } else {
+                    scrollDownIndicator.classList.remove('hidden');
+                }
+            } else {
+                scrollUpIndicator.classList.add('hidden');
+                scrollDownIndicator.classList.add('hidden');
+            }
+        }
 
-     scrollDownIndicator.addEventListener('click', () => {
-         const scrollAmount = scrollContainer.clientHeight * 0.6;
-         scrollContainer.scrollBy({
-             top: scrollAmount,
-             behavior: 'smooth'
-         });
-     });
+        scrollDownIndicator.addEventListener('click', () => {
+            const scrollAmount = scrollContainer.clientHeight * 0.6;
+            scrollContainer.scrollBy({
+                top: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
 
-     scrollUpIndicator.addEventListener('click', () => {
-         const scrollAmount = scrollContainer.clientHeight * 0.6;
-         scrollContainer.scrollBy({
-             top: -scrollAmount,
-             behavior: 'smooth'
-         });
-     });
+        scrollUpIndicator.addEventListener('click', () => {
+            const scrollAmount = scrollContainer.clientHeight * 0.6;
+            scrollContainer.scrollBy({
+                top: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
 
-     scrollContainer.addEventListener('scroll', updateScrollIndicators);
+        scrollContainer.addEventListener('scroll', updateScrollIndicators);
 
-     // Contact email copy
-     const contactEmail = document.getElementById('contactEmail');
-     contactEmail.addEventListener('click', () => {
-         navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
-         showToast();
-     });
+        // Contact email copy
+        const contactEmail = document.getElementById('contactEmail');
+        contactEmail.addEventListener('click', () => {
+            navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
+            showToast();
+        });
 
-     // Generate calendar on load
-     generateCalendar();
+        // Image modal functionality
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const imageModalClose = document.getElementById('imageModalClose');
+        const clickableAboutImages = document.querySelectorAll('.clickable-about-image');
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        clickableAboutImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                imageModal.classList.add('active');
+            });
+        });
+
+        imageModalClose.addEventListener('click', () => {
+            imageModal.classList.remove('active');
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.remove('active');
+            }
+        });
+
+        // Touch event handlers for swipe gesture
+        imageModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        imageModal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleImageSwipe();
+        });
+
+        function handleImageSwipe() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            // Check if horizontal swipe is more dominant than vertical
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Right swipe (back gesture)
+                if (deltaX > 50) {
+                    imageModal.classList.remove('active');
+                }
+            }
+        }
+
+        // Update escape key handler to include image modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (imageModal.classList.contains('active')) {
+                    imageModal.classList.remove('active');
+                } else if (aboutModal.classList.contains('active')) {
+                    closeModal(aboutModal);
+                } else if (locationModal.classList.contains('active')) {
+                    closeModal(locationModal);
+                } else if (contactModal.classList.contains('active')) {
+                    closeModal(contactModal);
+                }
+            }
+        });
+
+        // Generate calendar on load
+        generateCalendar();
     </script>
 </body>
 </html>
