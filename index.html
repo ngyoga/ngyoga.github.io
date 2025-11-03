@@ -3,61 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Natasha Goodwin Yoga | Upper Valley VT & NH</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. After quickly realizing its healing potential, I committed to life-long study and practice of the ancient wisdom. Most inspired by my teachers at the Bhakti Yoga Movement Center, my practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together.">
-    <meta name="keywords" content="yoga Upper Valley, Lebanon NH yoga, Hanover yoga, White River Junction yoga, Quechee yoga, Claremont yoga, Cornish yoga, Plainfield yoga, Meriden yoga, Norwich yoga, Hartford VT yoga, Windsor VT yoga, Woodstock VT yoga, Enfield NH yoga, Canaan NH yoga, Lyme NH yoga, Grantham yoga, Vermont yoga, New Hampshire yoga, Dartmouth yoga, Natasha Goodwin yoga, Upper Valley fitness, bhakti yoga, yoga classes Upper Valley, yoga instructor Upper Valley, Upper Valley wellness">
-    <meta name="author" content="Natasha Goodwin">
-
-    <!-- Open Graph tags for social media -->
-    <meta property="og:title" content="Natasha Goodwin Yoga - Upper Valley VT & NH">
-    <meta property="og:description" content="Hi — I'm Natasha, and yoga found its way to my heart in Portland, Oregon in 2021. My practice is deeply rooted in loving devotion. As a teacher, my intention is to share the gift of yoga to bring us together.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="headshot.JPG">
-
-    <!-- Local Business Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Natasha Goodwin Yoga",
-      "image": "headshot.JPG",
-      "description": "Yoga instruction rooted in loving devotion, serving the Upper Valley communities of Vermont and New Hampshire",
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "Upper Valley",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 43.6422,
-        "longitude": -72.3197
-      },
-      "url": "https://yourwebsite.com",
-      "email": "natashagoodwinyoga@gmail.com",
-      "areaServed": [
-        "Lebanon, NH",
-        "Hanover, NH", 
-        "White River Junction, VT",
-        "Quechee, VT",
-        "Claremont, NH",
-        "Meriden, NH",
-        "Cornish, NH",
-        "Plainfield, NH",
-        "Norwich, VT",
-        "Hartford, VT",
-        "Windsor, VT",
-        "Woodstock, VT",
-        "Enfield, NH",
-        "Canaan, NH",
-        "Lyme, NH",
-        "Grantham, NH",
-        "Upper Valley"
-      ]
-    }
-    </script>
-    
+    <title>Natasha Goodwin Yoga</title>
     <style>
         * {
             margin: 0;
@@ -155,6 +101,11 @@
             opacity: 0;
             pointer-events: none;
         }
+
+	 .site-name.hidden-by-modal {
+		 opacity: 0;
+		 pointer-events: none;
+	 }
 
         .welcome-text {
             text-align: center;
@@ -697,12 +648,6 @@
     </style>
 </head>
 <body>
-    <!-- Hidden SEO Content -->
-    <div style="position: absolute; left: -9999px; width: 1px; height: 1px;">
-        <h1>Natasha Goodwin Yoga - Upper Valley Vermont and New Hampshire</h1>
-        <p>Yoga classes in Lebanon NH, Hanover NH, White River Junction VT, Quechee VT, Claremont NH, Meriden NH, Cornish NH, Plainfield NH, Norwich VT, Hartford VT, Windsor VT, Woodstock VT, Enfield NH, Canaan NH, Lyme NH, and Grantham NH. Serving the Upper Valley with yoga rooted in loving devotion and ancient wisdom. Classes available at CCBA Lebanon, Studio 34 Claremont, Dartmouth College, The Notch Climbing Gym, Meriden Library, Cornish Town Offices, and Stronghouse Spa Quechee.</p>
-    </div>
-
     <div class="container">
         <div class="site-name" id="siteName">
             <span class="name">Natasha Goodwin</span>
@@ -807,7 +752,7 @@
               {
                   time: '9:30am-10:30am',
                   location: 'Meriden Library, Meriden NH',
-                  locationLink: 'https://plainfieldlibraries.org/index.php/events/meriden',
+                  locationLink: 'https://plainfieldlibraries.org/meriden',
                   helper: 'Drop in'
               },
               {
@@ -1011,6 +956,7 @@
 
      function openModal(modal) {
          sunCircle.classList.add('hidden-by-modal');
+		 siteName.classList.add('hidden-by-modal');
          modal.classList.add('active');
          
          if (modal === locationModal) {
@@ -1022,6 +968,8 @@
      function closeModal(modal) {
          modal.classList.remove('active');
          sunCircle.classList.remove('hidden-by-modal');
+		 siteName.classList.remove('hidden-by-modal');
+
      }
 
      // Navigation
@@ -1060,6 +1008,8 @@
              }
          });
      });
+
+     // Escape key to close (removed - now handled with image modal)
 
      // Scroll indicators
      function updateScrollIndicators() {
