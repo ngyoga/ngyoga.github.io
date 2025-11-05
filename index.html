@@ -453,6 +453,15 @@
             cursor: pointer;
         }
 
+        .class-cancelled {
+            margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
+            font-size: clamp(0.95rem, 1.25vmin, 1.15rem);
+            color: #c65d47;
+            font-weight: 600;
+            letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
+            text-transform: uppercase;
+        }
+
         .class-separator {
             margin: clamp(0.4rem, 0.6vmin, 0.6rem) 0;
             border-top: 1px solid rgba(107, 93, 79, 0.2);
@@ -731,6 +740,12 @@
     <div class="toast" id="toast">Email copied</div>
 
     <script>
+     // Cancellations list - add dates here to mark classes as cancelled
+     // Format: 'YYYY-MM-DD'
+     const cancelledClasses = [
+         '2025-11-05' // Today's Notch class
+     ];
+
      // Weekly schedule template
      const weeklySchedule = {
          0: [ // Sunday
@@ -834,6 +849,10 @@
              const dayOfWeek = currentDate.getDay();
              const classes = weeklySchedule[dayOfWeek];
              
+             // Check if this date is cancelled
+             const dateStr = currentDate.toISOString().split('T')[0];
+             const isCancelled = cancelledClasses.includes(dateStr);
+             
              // Filter classes based on exclusion rules
              const filteredClasses = classes.filter(classInfo => {
                  if (classInfo.excludeLastSunday && dayOfWeek === 0) {
@@ -864,8 +883,8 @@
              // Add day header with date
              const header = document.createElement('div');
              header.className = 'calendar-day-header';
-             const dateStr = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
-             header.textContent = dateStr;
+             const dateStr2 = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
+             header.textContent = dateStr2;
              calendarGrid.appendChild(header);
              
              // Add day's schedule
@@ -903,32 +922,40 @@
                  
                  classInfoDiv.appendChild(locationDiv);
                  
-                 // Add signup link if it exists
-                 if (classInfo.link) {
-                     const signupLink = document.createElement('a');
-                     signupLink.className = 'class-link';
-                     signupLink.href = classInfo.link;
-                     signupLink.target = '_blank';
-                     signupLink.textContent = 'Sign up';
-                     classInfoDiv.appendChild(signupLink);
-                 }
-                 
-                 // Add helper text if it exists
-                 if (classInfo.helper) {
-                     const helperDiv = document.createElement('span');
-                     helperDiv.className = 'class-helper';
-                     helperDiv.textContent = classInfo.helper;
-                     
-                     // Add click handler to copy email for "Email to sign up"
-                     if (classInfo.helper === 'Email to sign up') {
-                         helperDiv.style.cursor = 'pointer';
-                         helperDiv.addEventListener('click', function() {
-                             navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
-                             showToast();
-                         });
+                 // Add cancelled badge or signup link/helper text
+                 if (isCancelled) {
+                     const cancelledDiv = document.createElement('div');
+                     cancelledDiv.className = 'class-cancelled';
+                     cancelledDiv.textContent = 'Cancelled';
+                     classInfoDiv.appendChild(cancelledDiv);
+                 } else {
+                     // Add signup link if it exists
+                     if (classInfo.link) {
+                         const signupLink = document.createElement('a');
+                         signupLink.className = 'class-link';
+                         signupLink.href = classInfo.link;
+                         signupLink.target = '_blank';
+                         signupLink.textContent = 'Sign up';
+                         classInfoDiv.appendChild(signupLink);
                      }
                      
-                     classInfoDiv.appendChild(helperDiv);
+                     // Add helper text if it exists
+                     if (classInfo.helper) {
+                         const helperDiv = document.createElement('span');
+                         helperDiv.className = 'class-helper';
+                         helperDiv.textContent = classInfo.helper;
+                         
+                         // Add click handler to copy email for "Email to sign up"
+                         if (classInfo.helper === 'Email to sign up') {
+                             helperDiv.style.cursor = 'pointer';
+                             helperDiv.addEventListener('click', function() {
+                                 navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
+                                 showToast();
+                             });
+                         }
+                         
+                         classInfoDiv.appendChild(helperDiv);
+                     }
                  }
                  
                  dateDiv.appendChild(classInfoDiv);
