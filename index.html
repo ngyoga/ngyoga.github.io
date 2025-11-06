@@ -455,8 +455,9 @@
 
         .class-cancelled {
             margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
-            font-size: clamp(0.95rem, 1.25vmin, 1.15rem);
+            font-size: clamp(0.85rem, 1.15vmin, 1.0rem);
             color: #c65d47;
+			opacity: 0.5;
             font-weight: 600;
             letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
             text-transform: uppercase;
@@ -740,10 +741,8 @@
     <div class="toast" id="toast">Email copied</div>
 
     <script>
-     // Cancellations list - add dates here to mark classes as cancelled
-     // Format: 'YYYY-MM-DD'
      const cancelledClasses = [
-         '2025-11-05' // Today's Notch class
+         '2025-11-07'
      ];
 
      // Weekly schedule template
