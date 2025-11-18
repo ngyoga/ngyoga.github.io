@@ -773,7 +773,7 @@
                   time: '4:30pm-5:30pm',
                   location: 'Dartmouth College, Hanover NH',
                   link: 'https://students.dartmouth.edu/wellness-center/wellness-mindfulness/yoga/yoga-mindful-movement-classes',
-                  endDate: new Date('2025-11-18')
+                  includeDate: '2025-11-18'
               }
          ],
          3: [ // Wednesday
@@ -781,7 +781,7 @@
                   time: '5:30pm-6:30pm',
                   location: 'The Notch Climbing Gym, Lebanon NH',
                   link: 'https://www.thenotchclimbing.com/classes',
-                  excludeDate: new Date('2025-11-26')
+                  excludeDate: '2025-11-26'
               }
          ],
          4: [], // Thursday - no classes
@@ -791,7 +791,7 @@
                   location: 'Cornish Town Offices, Cornish NH',
                   locationLink: 'https://maps.app.goo.gl/tGu5V9Wiqy4nqysa6',
                   helper: 'Drop in',
-                  excludeDate: new Date('2025-11-28')
+                  excludeDate: '2025-11-28'
               }
          ],
          6: [ // Saturday
@@ -799,7 +799,8 @@
                   time: '10:00am-11:00am',
                   location: 'Stronghouse Spa, Quechee VT',
 				  locationLink: 'https://stronghousespa.com/event-calendar/',
-                  helper: 'Email to sign up'
+                  helper: 'Email to sign up',
+                  excludeDate: '2025-11-29'
               }
          ]
      };
@@ -847,6 +848,24 @@
              
              // Filter classes based on exclusion rules
              const filteredClasses = classes.filter(classInfo => {
+                 // If includeDate is set, ONLY show on that specific date
+                 if (classInfo.includeDate) {
+                     const includeDate = new Date(classInfo.includeDate + 'T00:00:00');
+                     const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                     const includeDateOnly = new Date(includeDate.getFullYear(), includeDate.getMonth(), includeDate.getDate());
+                     return currentDateOnly.getTime() === includeDateOnly.getTime();
+                 }
+                 
+                 // Check excludeDate - don't show on this specific date
+                 if (classInfo.excludeDate) {
+                     const excludeDate = new Date(classInfo.excludeDate + 'T00:00:00');
+                     const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                     const excludeDateOnly = new Date(excludeDate.getFullYear(), excludeDate.getMonth(), excludeDate.getDate());
+                     if (currentDateOnly.getTime() === excludeDateOnly.getTime()) {
+                         return false;
+                     }
+                 }
+                 
                  if (classInfo.excludeLastSunday && dayOfWeek === 0) {
                      return !isLastSundayOfMonth(currentDate);
                  }
@@ -854,13 +873,6 @@
                      const endDate = new Date(classInfo.endDate);
                      endDate.setHours(0, 0, 0, 0);
                      if (currentDate > endDate) {
-                         return false;
-                     }
-                 }
-                 if (classInfo.excludeDate) {
-                     const excludeDate = new Date(classInfo.excludeDate);
-                     excludeDate.setHours(0, 0, 0, 0);
-                     if (currentDate.getTime() === excludeDate.getTime()) {
                          return false;
                      }
                  }
