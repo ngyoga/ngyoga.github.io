@@ -237,7 +237,7 @@
 			 width: auto;
 			 height: auto;
 			 max-width: 55svw;
-			 max-height: 45svh; /* Constrain image height */
+			 max-height: 45svh;
 			 aspect-ratio: 1 / 1;
 			 object-fit: cover;
 			 object-position: center;
@@ -422,44 +422,43 @@
 			 font-size: clamp(1.05rem, 1.4vmin, 1.3rem);
 		 }
 
-		 .class-location {
+		 .class-title {
 			 margin-top: clamp(0.15rem, 0.2vmin, 0.2rem);
+			 font-weight: 500;
 		 }
 
-		 .class-location.clickable {
-			 cursor: pointer;
+		 .class-title a {
+			 color: #6b5d4f;
+			 text-decoration: none;
 			 transition: opacity 0.3s ease;
 		 }
 
-		 .class-location.clickable:hover {
+		 .class-title a:hover {
 			 opacity: 0.7;
 		 }
 
-		 .class-link {
+		 .class-description {
 			 margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
 			 font-size: clamp(1rem, 1.3vmin, 1.2rem);
+			 color: #4a5a68;
+		 }
+
+		 .class-description a {
 			 color: #4a5a68;
 			 text-decoration: underline;
 			 cursor: pointer;
+			 transition: color 0.3s ease;
 		 }
 
-		 .class-link:hover {
+		 .class-description a:hover {
 			 color: #5f7588;
 		 }
 
-		 .class-helper {
-			 margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
-			 font-size: clamp(1rem, 1.3vmin, 1.2rem);
-			 color: #4a5a68;
-			 text-decoration: none;
-			 cursor: pointer;
-		 }
-
-		 .class-cancelled {
+		 .class-canceled {
 			 margin-top: clamp(0.4rem, 0.5vmin, 0.5rem);
 			 font-size: clamp(0.85rem, 1.15vmin, 1.0rem);
 			 color: #c65d47;
-			 opacity: 0.5;
+			 opacity: 0.7;
 			 font-weight: 600;
 			 letter-spacing: clamp(0.8px, 0.15vmin, 1.5px);
 			 text-transform: uppercase;
@@ -584,11 +583,9 @@
 				 font-size: clamp(1.3rem, 2.9vmin, 1.9rem);
 			 }
 
-
 			 .nav-link {
 				 font-size: clamp(1.4rem, 3.2vmin, 2.4rem);
 			 }
-
 		 }
 
 		 @media (max-width: 768px) {
@@ -621,7 +618,6 @@
 			 .nav-link {
 				 font-size: clamp(1.2rem, 2.6vmin, 2rem);
 			 }
-
 		 }
 
 		 @media (max-width: 480px) {
@@ -653,8 +649,7 @@
 				 font-size: clamp(0.9rem, 1.25vmin, 1.15rem);
 			 }
 
-			 .class-link,
-			 .class-helper {
+			 .class-description {
 				 font-size: clamp(0.8rem, 1.1vmin, 1rem);
 			 }
 
@@ -688,7 +683,6 @@
 			</div>
 			
 			<div class="sun-circle" id="sunCircle">
-				<!-- Welcome Section -->
 				<div class="welcome-text">
 					<h1>I'm so glad<br>you're here</h1>
 				</div>
@@ -763,218 +757,245 @@
 		<div class="toast" id="toast">Email copied</div>
 
 		<script>
-		 const cancelledClasses = [
-			 '2025-12-02', '2025-12-22', '2025-12-23', '2025-12-24', '2025-12-25', '2025-12-26', '2025-12-31'
-		 ];
+		 // ===== CONFIGURATION =====
+		 // Replace these with your actual values
+		 const GOOGLE_API_KEY = 'AIzaSyDYxWRGNWdwZEoRI7_AJhwCX3dk-59vy1U';
+		 const CALENDAR_ID = 'natashagoodwinyoga@gmail.com';
+		 
+		 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		 const EMAIL_ADDRESS = 'natashagoodwinyoga@gmail.com';
 
-		 // Weekly schedule template
-		 const weeklySchedule = {
-			 0: [ // Sunday
-				  {
-					  time: '10:00am-11:00am',
-					  location: 'CCBA, Lebanon NH',
-					  locationLink: 'https://joinccba.org',
-					  helper: 'Drop in',
-					  excludeDate: ['2025-12-21']
-				  }
-			 ],
-			 1: [ // Monday
-				  {
-					  time: '9:30am-10:30am',
-					  location: 'Meriden Library, Meriden NH',
-					  locationLink: 'https://plainfieldlibraries.org/index.php/events/meriden',
-					  helper: 'Drop in'
-				  },
-				  {
-					  time: '5:30pm-6:30pm',
-					  location: 'The Notch Climbing Gym, Lebanon NH',
-					  link: 'https://www.thenotchclimbing.com/classes'
-				  }
-			 ],
-			 2: [ ], // Tuesday
-			 3: [ // Wednesday
-				  {
-					  time: '5:30pm-6:30pm',
-					  location: 'The Notch Climbing Gym, Lebanon NH',
-					  link: 'https://www.thenotchclimbing.com/classes',
-				  }
-			 ],
-			 4: [], // Thursday - no classes
-			 5: [ // Friday
-				  {
-					  time: '9:30am-10:30am',
-					  location: 'Cornish Town Offices, Cornish NH',
-					  locationLink: 'https://maps.app.goo.gl/tGu5V9Wiqy4nqysa6',
-					  helper: 'Drop in',
-				  }
-			 ],
-			 6: [ // Saturday
-				  {
-					  time: '10:00am-11:00am',
-					  location: 'Stronghouse Spa, Quechee VT',
-					  locationLink: 'https://stronghousespa.com/event-calendar/',
-					  helper: 'Email to sign up',
-				  }
-			 ]
-		 };
-
-		 function isLastSundayOfMonth(date) {
-			 const day = date.getDay();
-			 if (day !== 0) return false;
+		 // Format time from Date object
+		 function formatTime(date) {
+			 if (!date) return '';
 			 
-			 const month = date.getMonth();
-			 const nextSunday = new Date(date);
-			 nextSunday.setDate(date.getDate() + 7);
+			 let hours = date.getHours();
+			 const minutes = date.getMinutes();
+			 const ampm = hours >= 12 ? 'pm' : 'am';
 			 
-			 return nextSunday.getMonth() !== month;
+			 hours = hours % 12;
+			 hours = hours ? hours : 12;
+			 const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+			 
+			 return `${hours}:${minutesStr}${ampm}`;
 		 }
 
-		 function showToast() {
-			 const toast = document.getElementById('toast');
-			 toast.classList.add('show');
-			 setTimeout(() => {
-				 toast.classList.remove('show');
-			 }, 2000);
+		 // Check if event is cancelled based on title
+		 function isEventCancelled(summary) {
+			 if (!summary) return false;
+			 return summary.toLowerCase().startsWith('canceled:') || summary.toLowerCase().startsWith('cancelled:');
 		 }
 
-		 function generateCalendar() {
-			 const calendarGrid = document.getElementById('calendarGrid');
-			 calendarGrid.innerHTML = '';
+		 // Remove "Canceled:" or "Cancelled:" prefix from title
+		 function cleanEventTitle(summary) {
+			 if (!summary) return '';
+			 if (summary.toLowerCase().startsWith('canceled:')) {
+				 return summary.substring(9).trim();
+			 }
+			 if (summary.toLowerCase().startsWith('cancelled:')) {
+				 return summary.substring(10).trim();
+			 }
+			 return summary;
+		 }
 
-			 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-			 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		 // Process description HTML content
+		 function processDescription(description) {
+			 if (!description) return '';
 			 
-			 const today = new Date();
-			 today.setHours(0, 0, 0, 0);
+			 // Replace newlines with <br> for display
+			 let text = description.replace(/\n/g, '<br>');
 			 
-			 // Generate 14 days starting from today
-			 for (let i = 0; i < 30; i++) {
-				 const currentDate = new Date(today);
-				 currentDate.setDate(today.getDate() + i);
+			 return text;
+		 }
+
+		 // Fetch events from Google Calendar API
+		 async function fetchCalendarEvents() {
+			 try {
+				 console.log('Fetching calendar data from Google Calendar API');
 				 
-				 const dayOfWeek = currentDate.getDay();
-				 const classes = weeklySchedule[dayOfWeek];
+				 const now = new Date();
+				 const thirtyDaysLater = new Date();
+				 thirtyDaysLater.setDate(now.getDate() + 30);
 				 
-				 // Check if this date is cancelled
-				 const dateStr = currentDate.toISOString().split('T')[0];
-				 const isCancelled = cancelledClasses.includes(dateStr);
+				 // Format dates for API (RFC3339)
+				 const timeMin = now.toISOString();
+				 const timeMax = thirtyDaysLater.toISOString();
 				 
-				 // Filter classes based on exclusion rules
-				 const filteredClasses = classes.filter(classInfo => {
-					 
-					 // Check excludeDate - don't show on this specific date
-					 if (classInfo.excludeDate) {
-						 for (let date of classInfo.excludeDate) {
-							 const excludeDate = new Date(date + 'T00:00:00');
-							 const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-							 const excludeDateOnly = new Date(excludeDate.getFullYear(), excludeDate.getMonth(), excludeDate.getDate());
-							 if (currentDateOnly.getTime() === excludeDateOnly.getTime()) {
-								 return false;
-							 }
-						 }
-					 }
-					 
-					 if (classInfo.excludeLastSunday && dayOfWeek === 0) {
-						 return !isLastSundayOfMonth(currentDate);
-					 }
-					 if (classInfo.endDate) {
-						 const endDate = new Date(classInfo.endDate);
-						 endDate.setHours(0, 0, 0, 0);
-						 if (currentDate > endDate) {
-							 return false;
-						 }
-					 }
-					 return true;
-				 });
+				 const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?key=${GOOGLE_API_KEY}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`;
 				 
-				 // Skip days with no classes after filtering
-				 if (!filteredClasses || filteredClasses.length === 0) {
-					 continue;
+				 const response = await fetch(url);
+				 
+				 if (!response.ok) {
+					 throw new Error(`API request failed: ${response.status}`);
 				 }
 				 
-				 // Add day header with date
+				 const data = await response.json();
+				 
+				 console.log('Events fetched:', data.items?.length || 0);
+				 
+				 // Transform API response to our event format
+				 const events = (data.items || []).map(item => {
+					 // Parse start and end times
+					 let start = null;
+					 let end = null;
+					 
+					 if (item.start.dateTime) {
+						 start = new Date(item.start.dateTime);
+					 } else if (item.start.date) {
+						 start = new Date(item.start.date + 'T00:00:00');
+					 }
+					 
+					 if (item.end.dateTime) {
+						 end = new Date(item.end.dateTime);
+					 } else if (item.end.date) {
+						 end = new Date(item.end.date + 'T00:00:00');
+					 }
+					 
+					 return {
+						 summary: item.summary || '',
+						 location: item.location || '',
+						 description: item.description || '',
+						 start: start,
+						 end: end,
+						 status: item.status || 'confirmed'
+					 };
+				 });
+				 
+				 return events;
+			 } catch (error) {
+				 console.error('Error fetching calendar events:', error);
+				 showToast('Error loading calendar');
+				 return [];
+			 }
+		 }
+
+		 // Generate calendar from API events
+		 async function generateCalendar() {
+			 const calendarGrid = document.getElementById('calendarGrid');
+			 calendarGrid.innerHTML = '<div class="class-info">Loading calendar...</div>';
+			 
+			 const events = await fetchCalendarEvents();
+			 
+			 if (events.length === 0) {
+				 calendarGrid.innerHTML = '<div class="class-info">No upcoming classes scheduled.</div>';
+				 return;
+			 }
+			 
+			 calendarGrid.innerHTML = '';
+			 
+			 const eventsByDate = {};
+			 
+			 events.forEach(event => {
+				 // Skip cancelled events
+				 if (event.status === 'cancelled') {
+					 return;
+				 }
+				 
+				 if (!event.start) return;
+				 
+				 const startDate = new Date(event.start);
+				 const dateKey = startDate.toISOString().split('T')[0];
+				 
+				 if (!eventsByDate[dateKey]) {
+					 eventsByDate[dateKey] = [];
+				 }
+				 
+				 eventsByDate[dateKey].push(event);
+			 });
+			 
+			 const sortedDates = Object.keys(eventsByDate).sort();
+			 
+			 sortedDates.forEach(dateKey => {
+				 const dateEvents = eventsByDate[dateKey];
+				 const currentDate = new Date(dateKey + 'T12:00:00');
+				 const dayOfWeek = currentDate.getDay();
+				 
 				 const header = document.createElement('div');
 				 header.className = 'calendar-day-header';
-				 const dateStr2 = `${days[dayOfWeek]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
-				 header.textContent = dateStr2;
+				 const dateStr = `${DAYS[dayOfWeek]}, ${MONTHS[currentDate.getMonth()]} ${currentDate.getDate()}`;
+				 header.textContent = dateStr;
 				 calendarGrid.appendChild(header);
 				 
-				 // Add day's schedule
 				 const dateDiv = document.createElement('div');
 				 dateDiv.className = 'calendar-date has-class';
 				 
-				 // Add classes
-				 filteredClasses.forEach((classInfo, index) => {
+				 dateEvents.forEach((event, index) => {
 					 if (index > 0) {
 						 const separator = document.createElement('div');
 						 separator.className = 'class-separator';
 						 dateDiv.appendChild(separator);
 					 }
 					 
+					 const isCancelled = isEventCancelled(event.summary);
+					 
 					 const classInfoDiv = document.createElement('div');
 					 classInfoDiv.className = 'class-info';
 					 
+					 // Time
 					 const timeDiv = document.createElement('div');
 					 timeDiv.className = 'class-time';
-					 timeDiv.textContent = classInfo.time;
-					 classInfoDiv.appendChild(timeDiv);
-
-					 const locationDiv = document.createElement('div');
-					 locationDiv.className = 'class-location';
-					 locationDiv.textContent = classInfo.location;
 					 
-					 // Make location clickable if locationLink exists
-					 if (classInfo.locationLink) {
-						 locationDiv.classList.add('clickable');
-						 locationDiv.style.cursor = 'pointer';
-						 locationDiv.addEventListener('click', function() {
-							 window.open(classInfo.locationLink, '_blank');
-						 });
+					 if (event.start && event.end) {
+						 const startTime = formatTime(event.start);
+						 const endTime = formatTime(event.end);
+						 timeDiv.textContent = `${startTime}-${endTime}`;
+					 } else {
+						 timeDiv.textContent = 'All day';
 					 }
 					 
-					 classInfoDiv.appendChild(locationDiv);
+					 classInfoDiv.appendChild(timeDiv);
 					 
-					 // Add cancelled badge or signup link/helper text
-					 if (isCancelled) {
-						 const cancelledDiv = document.createElement('div');
-						 cancelledDiv.className = 'class-cancelled';
-						 cancelledDiv.textContent = 'Canceled';
-						 classInfoDiv.appendChild(cancelledDiv);
+					 // Title (with link to location if available)
+					 const titleDiv = document.createElement('div');
+					 titleDiv.className = 'class-title';
+					 
+					 const cleanTitle = cleanEventTitle(event.summary);
+					 
+					 if (event.location) {
+						 const locationLink = document.createElement('a');
+						 locationLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`;
+						 locationLink.target = '_blank';
+						 locationLink.textContent = cleanTitle;
+						 titleDiv.appendChild(locationLink);
 					 } else {
-						 // Add signup link if it exists
-						 if (classInfo.link) {
-							 const signupLink = document.createElement('a');
-							 signupLink.className = 'class-link';
-							 signupLink.href = classInfo.link;
-							 signupLink.target = '_blank';
-							 signupLink.textContent = 'Sign up';
-							 classInfoDiv.appendChild(signupLink);
-						 }
+						 titleDiv.textContent = cleanTitle;
+					 }
+					 
+					 classInfoDiv.appendChild(titleDiv);
+					 
+					 // Description (preserve HTML formatting including hyperlinks)
+					 if (event.description && event.description.trim()) {
+						 const descDiv = document.createElement('div');
+						 descDiv.className = 'class-description';
 						 
-						 // Add helper text if it exists
-						 if (classInfo.helper) {
-							 const helperDiv = document.createElement('span');
-							 helperDiv.className = 'class-helper';
-							 helperDiv.textContent = classInfo.helper;
-							 
-							 // Add click handler to copy email for "Email to sign up"
-							 if (classInfo.helper === 'Email to sign up') {
-								 helperDiv.style.cursor = 'pointer';
-								 helperDiv.addEventListener('click', function() {
-									 navigator.clipboard.writeText('natashagoodwinyoga@gmail.com');
-									 showToast();
-								 });
+						 // Process and display HTML content from description
+						 descDiv.innerHTML = processDescription(event.description);
+						 
+						 // Ensure all links open in new tab
+						 const links = descDiv.querySelectorAll('a');
+						 links.forEach(link => {
+							 if (!link.hasAttribute('target')) {
+								 link.setAttribute('target', '_blank');
 							 }
-							 
-							 classInfoDiv.appendChild(helperDiv);
-						 }
+						 });
+						 
+						 classInfoDiv.appendChild(descDiv);
+					 }
+					 
+					 // Show canceled status if applicable
+					 if (isCancelled) {
+						 const canceledDiv = document.createElement('div');
+						 canceledDiv.className = 'class-canceled';
+						 canceledDiv.textContent = 'Canceled';
+						 classInfoDiv.appendChild(canceledDiv);
 					 }
 					 
 					 dateDiv.appendChild(classInfoDiv);
 				 });
 				 
 				 calendarGrid.appendChild(dateDiv);
-			 }
+			 });
 		 }
 
 		 // Modal management
@@ -1009,7 +1030,15 @@
 			 modal.classList.remove('active');
 			 sunCircle.classList.remove('hidden-by-modal');
 			 siteName.classList.remove('hidden-by-modal');
+		 }
 
+		 function showToast(message = 'Email copied') {
+			 const toast = document.getElementById('toast');
+			 toast.textContent = message;
+			 toast.classList.add('show');
+			 setTimeout(() => {
+				 toast.classList.remove('show');
+			 }, 2000);
 		 }
 
 		 // Navigation
@@ -1048,8 +1077,6 @@
 				 }
 			 });
 		 });
-
-		 // Escape key to close (removed - now handled with image modal)
 
 		 // Scroll indicators
 		 function updateScrollIndicators() {
@@ -1144,9 +1171,7 @@
 			 const deltaX = touchEndX - touchStartX;
 			 const deltaY = touchEndY - touchStartY;
 			 
-			 // Check if horizontal swipe is more dominant than vertical
 			 if (Math.abs(deltaX) > Math.abs(deltaY)) {
-				 // Right swipe (back gesture)
 				 if (deltaX > 50) {
 					 imageModal.classList.remove('active');
 				 }
@@ -1168,8 +1193,31 @@
 			 }
 		 });
 
-		 // Generate calendar on load
-		 generateCalendar();
+		 // Initialize all functionality when DOM is ready
+		 function init() {
+			 // Fetch calendar when location modal opens
+			 const observer = new MutationObserver((mutations) => {
+				 mutations.forEach((mutation) => {
+					 if (mutation.attributeName === 'class') {
+						 if (locationModal.classList.contains('active')) {
+							 generateCalendar();
+						 }
+					 }
+				 });
+			 });
+			 
+			 observer.observe(locationModal, { attributes: true });
+			 
+			 // Also fetch calendar on initial page load (for caching)
+			 generateCalendar();
+		 }
+
+		 // Run init when DOM is ready
+		 if (document.readyState === 'loading') {
+			 document.addEventListener('DOMContentLoaded', init);
+		 } else {
+			 init();
+		 }
 		</script>
 	</body>
 </html>
